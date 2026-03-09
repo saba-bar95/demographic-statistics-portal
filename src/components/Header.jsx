@@ -1,4 +1,3 @@
-import useTheme from "../hooks/useTheme";
 import { useParams, useNavigate } from "react-router-dom";
 import { LuSun, LuMoon, LuInfo } from "react-icons/lu";
 import { FaFacebook } from "react-icons/fa";
@@ -7,8 +6,7 @@ import logoKa from "../assets/images/logo_ka.svg";
 import "flag-icons/css/flag-icons.min.css";
 import useTextSize from "../hooks/useTextSize";
 
-export default function Header({ onInfoClick }) {
-  const { theme, toggle } = useTheme();
+export default function Header({ onInfoClick, theme, onToggleTheme }) {
   const { language } = useParams();
   const navigate = useNavigate();
 
@@ -64,7 +62,7 @@ export default function Header({ onInfoClick }) {
         </button>
 
         <button
-          onClick={toggle}
+          onClick={onToggleTheme}
           className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded bg-(--text) text-(--bg) hover:bg-(--primary) hover:text-(--bg) cursor-pointer transition-colors duration-150"
           title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
           {theme === "light" ? (

@@ -52,3 +52,23 @@ h1 {
   font-family: FiraGORegular;
   font-feature-settings: "case" on;
 }
+
+.leaflet-container,
+.leaflet-pane,
+.leaflet-map-pane,
+.leaflet-tile-pane,
+.leaflet-overlay-pane {
+  background: var(--bg) !important;
+}
+
+.leaflet-container {
+  cursor: default !important;
+}
+
+.leaflet-container .leaflet-interactive {
+  cursor: pointer !important;
+}
+
+.leaflet-container .leaflet-interactive:focus {
+  outline: none;
+}
