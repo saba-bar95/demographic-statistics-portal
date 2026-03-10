@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import InfoModal from "./components/InfoModal";
 import useChartData from "./hooks/useChartData";
@@ -8,11 +8,20 @@ import GeorgiaRegionMap from "./components/GeorgiaRegionMap";
 import { regionNameTranslations } from "./constants/regionNames";
 import PopulationPyramid from "./components/PopulationPyramid";
 import { useParams } from "react-router-dom";
+import BannerSection from "./components/BannerSection";
+import BannerModal from "./components/BannerModal";
 
 function App() {
   const { language } = useParams();
+
+  useEffect(() => {
+    document.title =
+      language === "ka" ? "დემოგრაფიული პორტალი" : "Demographic Portal";
+  }, [language]);
+
   const { theme, toggle: toggleTheme } = useTheme();
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState({
     id: null,
     name: null,
@@ -119,9 +128,17 @@ function App() {
             onRegionSelect={handleRegionSelect}
             selectedRegionId={selectedRegion.id}
           />
+          <BannerSection
+            language={language}
+            onBannerModalOpen={() => setIsBannerModalOpen(true)}
+          />
         </main>
       </div>
       <InfoModal isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
+      <BannerModal
+        isOpen={isBannerModalOpen}
+        onClose={() => setIsBannerModalOpen(false)}
+      />
     </>
   );
 }

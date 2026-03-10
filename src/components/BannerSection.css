@@ -1,0 +1,9 @@
+.banner-item {
+  overflow: hidden;
+  border-radius: 0.5rem;
+  transition: transform 300ms ease;
+}
+
+.banner-item:hover {
+  transform: scale(1.05);
+}
