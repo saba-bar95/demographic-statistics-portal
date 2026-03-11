@@ -37,3 +37,33 @@ export async function fetchAvailableYears({ signal } = {}) {
 
   return response.json();
 }
+
+export async function fetchSummaryByYear(year, { signal } = {}) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/years/by-year?year=${encodeURIComponent(year)}`,
+    { signal },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch summary data (${response.status})`);
+  }
+
+  return response.json();
+}
+
+export async function fetchRegionSummaryByYear(
+  year,
+  regionCode,
+  { signal } = {},
+) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/regionyears?year=${encodeURIComponent(year)}&region_code=${encodeURIComponent(regionCode)}`,
+    { signal },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch region summary data (${response.status})`);
+  }
+
+  return response.json();
+}
