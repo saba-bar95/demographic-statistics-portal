@@ -56,36 +56,41 @@ export default function ChartExportMenu({
   return (
     <div
       ref={menuRef}
-      className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
+      className="absolute top-2 right-2 z-10 sm:top-3 sm:right-3"
+    >
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded border border-(--text) hover:bg-(--primary) hover:text-(--bg) cursor-pointer transition-colors duration-150 bg-(--bg)"
-        title={language === "ka" ? "მენიუ" : "Menu"}>
-        <HiOutlineMenu className="w-4 h-4 sm:w-5 sm:h-5" />
+        className="flex h-7 w-7 cursor-pointer items-center justify-center rounded border border-(--text) bg-(--bg) transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg) sm:h-8 sm:w-8"
+        title={language === "ka" ? "მენიუ" : "Menu"}
+      >
+        <HiOutlineMenu className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
 
       {isMenuOpen && (
-        <div className="absolute right-0 mt-1 w-max bg-(--bg) border border-(--text) rounded shadow-lg overflow-hidden">
+        <div className="absolute right-0 mt-1 w-max overflow-hidden rounded border border-(--text) bg-(--bg) shadow-lg">
           <button
             onClick={handleExportJpg}
-            className="w-full px-4 py-1.5 flex items-center gap-3 hover:bg-(--primary) hover:text-(--bg) transition-colors duration-150 text-xs sm:text-sm">
-            <BsFileEarmarkImage className="w-5 h-5 text-amber-500" />
+            className="flex w-full items-center gap-3 px-4 py-1.5 text-xs transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg) sm:text-sm"
+          >
+            <BsFileEarmarkImage className="h-5 w-5 text-amber-500" />
             <span>
               {language === "ka" ? "JPG ჩამოტვირთვა" : "Download JPG"}
             </span>
           </button>
           <button
             onClick={handleExportExcel}
-            className="w-full px-4 py-1.5 flex items-center gap-3 hover:bg-(--primary) hover:text-(--bg) transition-colors duration-150 text-xs sm:text-sm">
-            <BsFileEarmarkExcel className="w-5 h-5 text-emerald-600" />
+            className="flex w-full items-center gap-3 px-4 py-1.5 text-xs transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg) sm:text-sm"
+          >
+            <BsFileEarmarkExcel className="h-5 w-5 text-emerald-600" />
             <span>
               {language === "ka" ? "Excel ჩამოტვირთვა" : "Download Excel"}
             </span>
           </button>
           <button
             onClick={handleExportPdf}
-            className="w-full px-4 py-1.5 flex items-center gap-3 hover:bg-(--primary) hover:text-(--bg) transition-colors duration-150 text-xs sm:text-sm">
-            <BsFileEarmarkPdf className="w-5 h-5 text-red-600" />
+            className="flex w-full items-center gap-3 px-4 py-1.5 text-xs transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg) sm:text-sm"
+          >
+            <BsFileEarmarkPdf className="h-5 w-5 text-red-600" />
             <span>
               {language === "ka" ? "PDF ჩამოტვირთვა" : "Download PDF"}
             </span>
@@ -93,8 +98,9 @@ export default function ChartExportMenu({
           <div className="border-t border-(--text)"></div>
           <button
             onClick={handlePrint}
-            className="w-full px-4 py-1.5 flex items-center gap-3 hover:bg-(--primary) hover:text-(--bg) transition-colors duration-150 text-xs sm:text-sm">
-            <BsPrinter className="w-5 h-5 text-sky-600" />
+            className="flex w-full items-center gap-3 px-4 py-1.5 text-xs transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg) sm:text-sm"
+          >
+            <BsPrinter className="h-5 w-5 text-sky-600" />
             <span>{language === "ka" ? "ბეჭდვა" : "Print"}</span>
           </button>
         </div>

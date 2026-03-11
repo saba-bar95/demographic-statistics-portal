@@ -36,29 +36,31 @@ export default function InfoModal({ isOpen, onClose }) {
   return (
     <div
       ref={modalRef}
-      className="fixed left-1/2 -translate-x-1/2 top-52 lg:top-32 z-40 w-full lg:w-[calc(65%+25px)] max-h-[80vh] overflow-y-auto border-2 border-(--text) rounded-lg p-4 sm:p-6 md:p-8 bg-(--bg) text-(--text) transition-all duration-300">
+      className="fixed top-52 left-1/2 z-40 max-h-[80vh] w-full -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-(--text) bg-(--bg) p-4 text-(--text) transition-all duration-300 sm:p-6 md:p-8 lg:top-32 lg:w-[calc(65%+25px)]"
+    >
       <div className="relative pt-3">
-        <div className="flex justify-between items-start mb-4">
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold">
+        <div className="mb-4 flex items-start justify-between">
+          <h2 className="text-base font-semibold sm:text-lg md:text-xl">
             {content.title}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 border border-(--text) hover:bg-(--primary) hover:text-(--bg) rounded transition-colors duration-150 cursor-pointer shrink-0"
-            title={content.closeTitle}>
+            className="shrink-0 cursor-pointer rounded border border-(--text) p-1 transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg)"
+            title={content.closeTitle}
+          >
             <LuX size="1.5rem" />
           </button>
         </div>
 
-        <div className="space-y-4 text-xs sm:text-sm text-justify">
+        <div className="space-y-4 text-justify text-xs sm:text-sm">
           <p>{content.intro}</p>
 
-          <h3 className="text-sm sm:text-base font-semibold mt-4">
+          <h3 className="mt-4 text-sm font-semibold sm:text-base">
             {content.pyramidTitle}
           </h3>
           <p>{content.pyramidBody}</p>
 
-          <h3 className="text-sm sm:text-base font-semibold mt-4 italic">
+          <h3 className="mt-4 text-sm font-semibold italic sm:text-base">
             {content.instructionsTitle}
           </h3>
           <div>
@@ -67,16 +69,16 @@ export default function InfoModal({ isOpen, onClose }) {
               : content.instructionsBody}
           </div>
 
-          <h3 className="text-sm sm:text-base font-semibold mt-4">
+          <h3 className="mt-4 text-sm font-semibold sm:text-base">
             {content.indicatorsTitle}
           </h3>
-          <ul className="list-disc list-inside space-y-2 ml-2">
+          <ul className="ml-2 list-inside list-disc space-y-2">
             {content.indicators.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
 
-          <h3 className="text-sm sm:text-base font-semibold mt-4">
+          <h3 className="mt-4 text-sm font-semibold sm:text-base">
             {content.marriageTitle}
           </h3>
           <p>{content.marriageBody}</p>
@@ -86,7 +88,7 @@ export default function InfoModal({ isOpen, onClose }) {
             {content.noteBody}
           </p>
 
-          <h3 className="text-sm sm:text-base font-semibold mt-4">
+          <h3 className="mt-4 text-sm font-semibold sm:text-base">
             {content.lifeTitle}
           </h3>
           <p>{content.lifeBody}</p>
@@ -96,24 +98,25 @@ export default function InfoModal({ isOpen, onClose }) {
             href={content.methodologyLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 underline break-all">
+            className="break-all text-blue-600 underline"
+          >
             {content.methodologyLink}
           </a>
-          <div className="flex flex-nowrap justify-around items-center gap-2 overflow-hidden">
+          <div className="flex flex-nowrap items-center justify-around gap-2 overflow-hidden">
             <img
               src={language === "en" ? logoEn : logoKa}
               alt="Instructions"
-              className="inline-block  md:w-auto h-auto md:h-[4.5em] align-middle rounded object-contain shrink min-w-0"
+              className="inline-block h-auto min-w-0 shrink rounded object-contain align-middle md:h-[4.5em] md:w-auto"
             />
             <img
               src={logoSweden}
               alt="Instructions"
-              className="inline-block  md:w-auto h-auto md:h-[4.5em] align-middle rounded object-contain shrink min-w-0"
+              className="inline-block h-auto min-w-0 shrink rounded object-contain align-middle md:h-[4.5em] md:w-auto"
             />
             <img
               src={logoUndp}
               alt="Instructions"
-              className="inline-block  md:w-auto h-auto md:h-[10.5em] align-middle rounded object-contain shrink min-w-0"
+              className="inline-block h-auto min-w-0 shrink rounded object-contain align-middle md:h-[10.5em] md:w-auto"
             />
           </div>
 
@@ -128,8 +131,9 @@ export default function InfoModal({ isOpen, onClose }) {
           <div className="flex justify-end pt-2">
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-2 px-3 py-1 border border-(--text) hover:bg-(--primary) hover:text-(--bg) rounded transition-colors duration-150 cursor-pointer shrink-0"
-              title={content.closeTitle}>
+              className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded border border-(--text) px-3 py-1 transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg)"
+              title={content.closeTitle}
+            >
               <span className="text-xs sm:text-sm">
                 {language === "en" ? "Close" : "დახურვა"}
               </span>

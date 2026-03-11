@@ -42,13 +42,13 @@ const banners = [
 
 export default function BannerSection({ language, onBannerModalOpen }) {
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {banners.map((banner, index) => {
         const img = (
           <img
             src={language === "ka" ? banner.ka : banner.en}
             alt={`Banner ${index + 1}`}
-            className="w-full h-auto rounded-lg object-cover"
+            className="h-full w-full object-cover"
           />
         );
 
@@ -57,7 +57,8 @@ export default function BannerSection({ language, onBannerModalOpen }) {
             <button
               key={index}
               onClick={onBannerModalOpen}
-              className="banner-item w-full sm:flex-1 sm:min-w-[calc(50%-0.5rem)] lg:min-w-0 cursor-pointer">
+              className="banner-item cursor-pointer"
+            >
               {img}
             </button>
           );
@@ -69,7 +70,8 @@ export default function BannerSection({ language, onBannerModalOpen }) {
             href={banner.link[language] || banner.link.en}
             target="_blank"
             rel="noopener noreferrer"
-            className="banner-item w-full sm:flex-1 sm:min-w-[calc(50%-0.5rem)] lg:min-w-0">
+            className="banner-item shadow-xl"
+          >
             {img}
           </a>
         );

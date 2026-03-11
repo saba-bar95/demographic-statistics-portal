@@ -372,7 +372,7 @@ export default function PopulationPyramid({
   }, [isPlaying, year, years, onYearChange]);
 
   return (
-    <div className="border border-(--text) rounded bg-(--bg) p-2 sm:p-4 relative">
+    <div className="relative flex h-full flex-col rounded border border-(--text) bg-(--bg) p-2 sm:p-4">
       {/* Export menu */}
       <ChartExportMenu
         data={data}
@@ -383,28 +383,28 @@ export default function PopulationPyramid({
 
       {/* Year display and lock button at the top */}
       {years.length > 0 && (
-        <div className="flex items-center justify-center gap-2 mb-2">
+        <div className="mb-2 flex items-center justify-center gap-2">
           {regionName && (
-            <span className="text-xs sm:text-sm md:text-base font-semibold text-(--primary)">
+            <span className="text-xs font-semibold text-(--primary) sm:text-sm md:text-base">
               {regionName} —
             </span>
           )}
-          <span className="text-[10px] sm:text-xs md:text-sm font-medium">
+          <span className="text-[10px] font-medium sm:text-xs md:text-sm">
             {language === "ka" ? "წელი:" : "Year:"}
           </span>
-          <span className="text-sm sm:text-base md:text-lg font-bold">
+          <span className="text-sm font-bold sm:text-base md:text-lg">
             {year}
           </span>
           {isLocked && (
-            <span className="text-[10px] sm:text-xs text-(--primary)">
+            <span className="text-[10px] text-(--primary) sm:text-xs">
               ({language === "ka" ? "შედარება:" : "compare:"} {lockedYear})
             </span>
           )}
           <button
             onClick={toggleLock}
-            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center rounded border cursor-pointer transition-colors duration-150 ${
+            className={`flex h-6 w-6 cursor-pointer items-center justify-center rounded border transition-colors duration-150 sm:h-7 sm:w-7 md:h-8 md:w-8 ${
               isLocked
-                ? "bg-(--primary) text-(--bg) border-(--primary)"
+                ? "border-(--primary) bg-(--primary) text-(--bg)"
                 : "border-(--text) hover:bg-(--primary) hover:text-(--bg)"
             }`}
             title={
@@ -415,17 +415,18 @@ export default function PopulationPyramid({
                 : isLocked
                   ? "Unlock year"
                   : "Lock year"
-            }>
+            }
+          >
             {isLocked ? (
-              <LuLock className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
+              <LuLock className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4" />
             ) : (
-              <LuLockOpen className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
+              <LuLockOpen className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4" />
             )}
           </button>
         </div>
       )}
 
-      <div ref={chartRef} className="w-full h-100 sm:h-125 md:h-150 lg:h-175" />
+      <div ref={chartRef} className="h-100 w-full sm:h-125 md:h-150 lg:h-0 lg:flex-1 lg:min-h-0" />
 
       {years.length > 0 && (
         <div>
@@ -462,7 +463,7 @@ export default function PopulationPyramid({
           `}</style>
 
           <div className="flex items-start gap-4 sm:gap-6">
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <input
                 type="range"
                 min={0}
@@ -472,7 +473,7 @@ export default function PopulationPyramid({
                 className="year-slider w-full"
               />
 
-              <div className="relative w-full h-8 sm:h-10 mt-1">
+              <div className="relative mt-1 h-8 w-full sm:h-10">
                 {years.map((y, i) => {
                   // Show all labels when few years, otherwise thin them
                   const fewYears = years.length <= 10;
@@ -493,7 +494,8 @@ export default function PopulationPyramid({
                       style={{
                         left: `${pos}%`,
                         transform: "translateX(-50%)",
-                      }}>
+                      }}
+                    >
                       {y}
                     </span>
                   );
@@ -501,20 +503,21 @@ export default function PopulationPyramid({
               </div>
             </div>
 
-            <div className="flex items-center gap-0.5 sm:gap-1 pt-1 shrink-0">
+            <div className="flex shrink-0 items-center gap-0.5 pt-1 sm:gap-1">
               <button
                 onClick={() =>
                   currentIndex > 0 && onYearChange(years[currentIndex - 1])
                 }
                 disabled={currentIndex <= 0 || isPlaying}
-                className="flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors duration-150 text-blue-500 hover:text-blue-700"
-                title={language === "ka" ? "წინა წელი" : "Previous year"}>
-                <FaBackwardStep className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                className="flex cursor-pointer items-center justify-center text-blue-500 transition-colors duration-150 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-30"
+                title={language === "ka" ? "წინა წელი" : "Previous year"}
+              >
+                <FaBackwardStep className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
               </button>
 
               <button
                 onClick={togglePlay}
-                className="flex items-center justify-center cursor-pointer transition-colors duration-150 text-blue-500 hover:text-blue-700"
+                className="flex cursor-pointer items-center justify-center text-blue-500 transition-colors duration-150 hover:text-blue-700"
                 title={
                   language === "ka"
                     ? isPlaying
@@ -523,11 +526,12 @@ export default function PopulationPyramid({
                     : isPlaying
                       ? "Pause"
                       : "Play"
-                }>
+                }
+              >
                 {isPlaying ? (
-                  <FaCirclePause className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                  <FaCirclePause className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                 ) : (
-                  <FaCirclePlay className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                  <FaCirclePlay className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
                 )}
               </button>
 
@@ -537,9 +541,10 @@ export default function PopulationPyramid({
                   onYearChange(years[currentIndex + 1])
                 }
                 disabled={currentIndex >= years.length - 1 || isPlaying}
-                className="flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors duration-150 text-blue-500 hover:text-blue-700"
-                title={language === "ka" ? "შემდეგი წელი" : "Next year"}>
-                <FaForwardStep className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                className="flex cursor-pointer items-center justify-center text-blue-500 transition-colors duration-150 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-30"
+                title={language === "ka" ? "შემდეგი წელი" : "Next year"}
+              >
+                <FaForwardStep className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
               </button>
             </div>
           </div>
@@ -547,7 +552,7 @@ export default function PopulationPyramid({
       )}
 
       {/* Footnotes */}
-      <div className="mt-2 text-[10px] sm:text-xs opacity-70 leading-relaxed">
+      <div className="mt-2 text-[10px] leading-relaxed opacity-70 sm:text-xs">
         {year > 1993 && (
           <p>
             {language === "ka"

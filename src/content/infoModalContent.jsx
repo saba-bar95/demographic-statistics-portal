@@ -21,7 +21,7 @@ export const infoModalContent = {
         <img
           src={icon1}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) გააქტიურების შემდგომ დიაგრამა ასახავს სტატისტიკის ეროვნული
         სამსახურისთვის ხელმისაწვდომ მონაცემებს შესაბამისი წლების მიხედვით.
@@ -30,14 +30,14 @@ export const infoModalContent = {
         <img
           src={icon2}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) გამოყენებით შესაძლებელია პირამიდის გადაყვანა მომდევნო ან წინა
         ხელმისაწვდომ წელზე. ბლოკირების ფუნქციური ღილაკი (
         <img
           src={icon3}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) მომხმარებელს საშუალებას აძლევს დააფიქსიროს სასურველი წელი და აღნიშნული
         წლის მოსახლეობის სტრუქტურის კონტური შენარჩუნდება სხვა წლებზე
@@ -48,14 +48,14 @@ export const infoModalContent = {
         <img
           src={icon4}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) შემდგომ პირამიდის დიაგრამის მარჯვნივ განთავსებულ სვეტზე მოძრავი
         ღილაკის (
         <img
           src={icon5}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) გადაადგილებით. მომხმარებელს დამატებით შეუძლია მონაცემები იხილოს ასევე
         საქართველოს რეგიონების მიხედვით. ამისთვის საჭიროა საქართველოს რუკაზე
@@ -102,21 +102,21 @@ export const infoModalContent = {
         <img
           src={icon1}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) the chart shows the data available to the National Statistics Office
         by the relevant years. The "Next"/"Previous" functional buttons (
         <img
           src={icon2}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) switch the pyramid to the next/previous available year. The lock
         function button (
         <img
           src={icon3}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) allows the user to specify the desired year and the outline of the
         population structure of that year will be fixed, making it easier to see
@@ -126,7 +126,7 @@ export const infoModalContent = {
         <img
           src={icon4}
           alt="Instructions"
-          className="inline-block h-[1.5em] w-auto align-middle rounded mx-1"
+          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
         />
         ) on the column on the right-hand side of pyramid diagram after
         activating the Age Groups tab. Users can also view data by regions of

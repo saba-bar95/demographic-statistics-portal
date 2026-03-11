@@ -5,8 +5,6 @@ import L from "leaflet";
 import smallmap from "../assets/images/smallmap.png";
 import { regionNameTranslations } from "../constants/regionNames";
 
-const GEORGIA_ALL_ID = "GEO_ALL";
-
 const defaultStyle = {
   color: "#ffffff",
   weight: 1.2,
@@ -28,71 +26,22 @@ const selectedStyle = {
   fillOpacity: 0.85,
 };
 
-function CtrlZoomHandler({ onScrollHint }) {
-  const map = useMap();
-  useEffect(() => {
-    map.scrollWheelZoom.disable();
-    const container = map.getContainer();
-    const handleWheel = (e) => {
-      if (e.ctrlKey) {
-        e.preventDefault();
-        const delta = e.deltaY > 0 ? -1 : 1;
-        map.zoomIn(delta);
-      } else {
-        onScrollHint();
-      }
-    };
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => container.removeEventListener("wheel", handleWheel);
-  }, [map, onScrollHint]);
-  return null;
-}
-
 function FitToData({ geoJsonData }) {
   const map = useMap();
   useEffect(() => {
     if (!geoJsonData) return;
     const bounds = L.geoJSON(geoJsonData).getBounds();
     if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [10, 10] });
+      map.fitBounds(bounds, {});
     }
   }, [map, geoJsonData]);
   return null;
 }
 
-function ResizeHandler({ geoJsonData }) {
-  const map = useMap();
-  useEffect(() => {
-    const handleResize = () => {
-      map.invalidateSize();
-      if (geoJsonData) {
-        const bounds = L.geoJSON(geoJsonData).getBounds();
-        if (bounds.isValid()) {
-          map.fitBounds(bounds, { padding: [10, 10] });
-        }
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [map, geoJsonData]);
-  return null;
-}
-
-export default function GeorgiaRegionMap({
-  onRegionSelect,
-  selectedRegionId = null,
-}) {
+export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = null }) {
   const { language } = useParams();
   const [geoJsonData, setGeoJsonData] = useState(null);
   const [error, setError] = useState(null);
-  const [showScrollHint, setShowScrollHint] = useState(false);
-  const scrollHintTimer = useRef(null);
-
-  const handleScrollHint = useRef(() => {
-    setShowScrollHint(true);
-    if (scrollHintTimer.current) clearTimeout(scrollHintTimer.current);
-    scrollHintTimer.current = setTimeout(() => setShowScrollHint(false), 1500);
-  }).current;
 
   // Use refs to avoid stale closures in GeoJSON onEachFeature
   const onRegionSelectRef = useRef(onRegionSelect);
@@ -101,6 +50,7 @@ export default function GeorgiaRegionMap({
   useEffect(() => {
     onRegionSelectRef.current = onRegionSelect;
   }, [onRegionSelect]);
+
   useEffect(() => {
     selectedRegionIdRef.current = selectedRegionId;
   }, [selectedRegionId]);
@@ -120,8 +70,7 @@ export default function GeorgiaRegionMap({
     async function loadRegions() {
       try {
         const response = await fetch("/data/georgia-regions.geojson");
-        if (!response.ok)
-          throw new Error(`Failed to load regions (${response.status})`);
+        if (!response.ok) throw new Error(`Failed to load regions (${response.status})`);
         const payload = await response.json();
         if (isMounted) setGeoJsonData(payload);
       } catch (err) {
@@ -145,9 +94,7 @@ export default function GeorgiaRegionMap({
 
     const getRegionName = () => {
       const lang = language;
-      return lang === "ka"
-        ? regionNameTranslations[regionNameEn] || regionNameEn
-        : regionNameEn;
+      return lang === "ka" ? regionNameTranslations[regionNameEn] || regionNameEn : regionNameEn;
     };
 
     layer.bindTooltip(getRegionName() || "Unknown region");
@@ -185,68 +132,52 @@ export default function GeorgiaRegionMap({
   };
 
   if (error) {
-    return <p className="text-sm sm:text-base text-red-500">{error.message}</p>;
+    return <p className="text-sm text-red-500 sm:text-base">{error.message}</p>;
   }
 
   return (
-    <div className="relative w-full max-w-150 mx-auto h-80 border border-(--text) rounded overflow-hidden bg-(--bg)">
-      {/* Header bar */}
+    <div className="relative h-100 w-full overflow-hidden rounded border border-(--text) bg-(--bg) lg:h-full">
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center px-3 py-2 text-(--text)">
         <p
-          className="text-sm sm:text-base font-semibold text-center text-(--text)"
+          className="text-center text-sm font-semibold text-(--text) sm:text-base"
           style={{
             fontFamily: "'FiraGORegular', sans-serif",
             fontFeatureSettings: '"case" on',
-          }}>
+          }}
+        >
           {mapTitle}
         </p>
         <img
           src={smallmap}
           alt=""
-          className="absolute right-10 top-10 cursor-pointer"
+          className="absolute top-10 right-10 cursor-pointer"
           onClick={handleWholeGeorgiaSelect}
         />
       </div>
-
       {/* Map */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0">
         <MapContainer
-          center={[42.35, 43.2]}
-          zoom={7}
-          className="w-full h-full bg-(--bg)"
+          className="h-full w-full bg-(--bg)"
           scrollWheelZoom={false}
+          dragging={false}
           zoomControl={false}
-          attributionControl={false}>
+          attributionControl={false}
+        >
           {geoJsonData && (
             <>
               <GeoJSON
                 key={language}
                 data={geoJsonData}
                 style={(feature) =>
-                  feature?.properties?.shapeISO === selectedRegionId
-                    ? selectedStyle
-                    : defaultStyle
+                  feature?.properties?.shapeISO === selectedRegionId ? selectedStyle : defaultStyle
                 }
                 onEachFeature={onEachFeature}
               />
               <FitToData geoJsonData={geoJsonData} />
-              <ResizeHandler geoJsonData={geoJsonData} />
-              <CtrlZoomHandler onScrollHint={handleScrollHint} />
             </>
           )}
         </MapContainer>
       </div>
-
-      {/* Scroll hint overlay */}
-      {showScrollHint && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-          <div className="bg-black/70 text-white text-xs sm:text-sm px-4 py-2 rounded-lg shadow-lg">
-            {language === "ka"
-              ? "გამოიყენეთ Ctrl + scroll მასშტაბის შესაცვლელად"
-              : "Use Ctrl + scroll to zoom the map"}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
