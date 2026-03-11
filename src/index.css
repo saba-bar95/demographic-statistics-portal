@@ -11,6 +11,10 @@
   --primary: #2563eb;
 }
 
+.dark body {
+  background-color: #0b1220;
+}
+
 .dark {
   --bg: #0b1220;
   --text: #e6eef8;
@@ -24,7 +28,7 @@ body,
 }
 
 body {
-  background-color: var(--bg);
+  background-color: #ededed;
   color: var(--text);
   transition:
     background-color 0.3s ease-in-out,
