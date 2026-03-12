@@ -62,18 +62,18 @@ export default function Header({ onInfoClick, theme, onToggleTheme }) {
       {isSticky && <div style={{ height: headerHeight }} />}
       <header
         ref={headerRef}
-        className={`${isSticky ? "fixed top-0 right-0 left-0 z-50" : "relative"} mb-6 bg-(--bg) text-(--text) shadow-md transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-screen after:-translate-x-1/2 after:bg-blue-500 after:content-[''] md:mb-8 ${isHidden ? "-translate-y-full" : "translate-y-0"}`}
+        className={`${isSticky ? "fixed top-0 right-0 left-0 z-50" : "relative"} mb-6 bg-(--bg) text-(--text) shadow-md transition-all duration-300 after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-screen after:-translate-x-1/2 after:bg-blue-500 after:content-[''] md:mb-8 lg:mb-4 xl:mb-8 ${isHidden ? "-translate-y-full" : "translate-y-0"}`}
       >
-        <div className="mx-auto flex max-w-470 flex-col items-center justify-center gap-4 px-4 py-4 md:px-8 md:py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-12 lg:py-8">
+        <div className="mx-auto flex max-w-470 flex-col items-center justify-center gap-4 px-4 py-4 md:px-8 md:py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:px-12 lg:py-4 xl:gap-6 xl:py-8">
           <img
             src={language === "en" ? logoEn : logoKa}
             alt="Logo"
-            className="h-10 w-auto transition-opacity duration-300 sm:h-12 md:h-14"
+            className="h-10 w-auto transition-opacity duration-300 sm:h-12 md:h-14 lg:h-10 xl:h-14"
           />
 
           {/* responsive title - centered on mobile (in-flow), absolutely centered on desktop */}
           <h1
-            className={`mt-2 w-full text-center text-base font-semibold uppercase transition-all duration-300 sm:text-lg md:text-xl lg:absolute lg:left-1/2 lg:mt-0 lg:w-auto lg:-translate-x-1/2 lg:transform lg:text-2xl`}
+            className={`mt-2 w-full text-center text-base font-semibold uppercase transition-all duration-300 sm:text-lg md:text-xl lg:absolute lg:left-1/2 lg:mt-0 lg:w-auto lg:-translate-x-1/2 lg:transform lg:text-lg xl:text-2xl`}
           >
             {language === "en" ? "Demographic portal" : "დემოგრაფიული პორტალი"}
           </h1>

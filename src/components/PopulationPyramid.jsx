@@ -4,12 +4,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5exporting from "@amcharts/amcharts5/plugins/exporting";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { LuLock, LuLockOpen } from "react-icons/lu";
-import {
-  FaBackwardStep,
-  FaForwardStep,
-  FaCirclePlay,
-  FaCirclePause,
-} from "react-icons/fa6";
+import { FaBackwardStep, FaForwardStep, FaCirclePlay, FaCirclePause } from "react-icons/fa6";
 import ChartExportMenu from "./ChartExportMenu";
 
 export default function PopulationPyramid({
@@ -290,10 +285,7 @@ export default function PopulationPyramid({
     let lockedTotalFemale = 0;
     if (isLocked && lockedData) {
       lockedTotalMale = lockedData.reduce((sum, item) => sum + item.male, 0);
-      lockedTotalFemale = lockedData.reduce(
-        (sum, item) => sum + item.female,
-        0,
-      );
+      lockedTotalFemale = lockedData.reduce((sum, item) => sum + item.female, 0);
     }
 
     // Convert to gender-specific percentages (guard against division by zero)
@@ -309,9 +301,7 @@ export default function PopulationPyramid({
         femalePercent: totalFemale > 0 ? (item.female / totalFemale) * 100 : 0,
         // Locked overlay data (null if not locked)
         lockedMale:
-          lockedItem && lockedTotalMale > 0
-            ? -((lockedItem.male / lockedTotalMale) * 100)
-            : null,
+          lockedItem && lockedTotalMale > 0 ? -((lockedItem.male / lockedTotalMale) * 100) : null,
         lockedFemale:
           lockedItem && lockedTotalFemale > 0
             ? (lockedItem.female / lockedTotalFemale) * 100
@@ -372,14 +362,12 @@ export default function PopulationPyramid({
   }, [isPlaying, year, years, onYearChange]);
 
   return (
-    <div className="relative flex h-full flex-col rounded border border-(--text) bg-(--bg) p-2 sm:p-4">
+    <div
+      className="relative flex h-full flex-col rounded-lg bg-(--bg) p-2 sm:p-4"
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       {/* Export menu */}
-      <ChartExportMenu
-        data={data}
-        year={year}
-        language={language}
-        exportingRef={exportingRef}
-      />
+      <ChartExportMenu data={data} year={year} language={language} exportingRef={exportingRef} />
 
       {/* Year display and lock button at the top */}
       {years.length > 0 && (
@@ -392,9 +380,7 @@ export default function PopulationPyramid({
           <span className="text-[10px] font-medium sm:text-xs md:text-sm">
             {language === "ka" ? "წელი:" : "Year:"}
           </span>
-          <span className="text-sm font-bold sm:text-base md:text-lg">
-            {year}
-          </span>
+          <span className="text-sm font-bold sm:text-base md:text-lg">{year}</span>
           {isLocked && (
             <span className="text-[10px] text-(--primary) sm:text-xs">
               ({language === "ka" ? "შედარება:" : "compare:"} {lockedYear})
@@ -426,7 +412,7 @@ export default function PopulationPyramid({
         </div>
       )}
 
-      <div ref={chartRef} className="h-100 w-full sm:h-125 md:h-150 lg:h-0 lg:flex-1 lg:min-h-0" />
+      <div ref={chartRef} className="h-100 w-full sm:h-125 md:h-150 lg:h-0 lg:min-h-0 lg:flex-1" />
 
       {years.length > 0 && (
         <div>
@@ -462,52 +448,10 @@ export default function PopulationPyramid({
             }
           `}</style>
 
-          <div className="flex items-start gap-4 sm:gap-6">
-            <div className="min-w-0 flex-1">
-              <input
-                type="range"
-                min={0}
-                max={years.length - 1}
-                value={currentIndex >= 0 ? currentIndex : 0}
-                onChange={handleSliderChange}
-                className="year-slider w-full"
-              />
-
-              <div className="relative mt-1 h-8 w-full sm:h-10">
-                {years.map((y, i) => {
-                  // Show all labels when few years, otherwise thin them
-                  const fewYears = years.length <= 10;
-                  const isMobileShow =
-                    fewYears || i % 20 === 0 || i === years.length - 1;
-                  const isSmShow =
-                    fewYears || i % 10 === 0 || i === years.length - 1;
-                  const isMdShow =
-                    fewYears || i % 5 === 0 || i === years.length - 1;
-                  const pos =
-                    years.length > 1 ? (i / (years.length - 1)) * 100 : 50;
-                  return (
-                    <span
-                      key={y}
-                      className={`absolute text-[9px] sm:text-[10px] md:text-xs ${
-                        y === year ? "font-bold text-(--primary)" : "opacity-60"
-                      } ${isMobileShow ? "block" : "hidden"} ${isSmShow ? "sm:block" : "sm:hidden"} ${isMdShow ? "md:block" : "md:hidden"}`}
-                      style={{
-                        left: `${pos}%`,
-                        transform: "translateX(-50%)",
-                      }}
-                    >
-                      {y}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-0.5 pt-1 sm:gap-1">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-center gap-1 sm:gap-2">
               <button
-                onClick={() =>
-                  currentIndex > 0 && onYearChange(years[currentIndex - 1])
-                }
+                onClick={() => currentIndex > 0 && onYearChange(years[currentIndex - 1])}
                 disabled={currentIndex <= 0 || isPlaying}
                 className="flex cursor-pointer items-center justify-center text-blue-500 transition-colors duration-150 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-30"
                 title={language === "ka" ? "წინა წელი" : "Previous year"}
@@ -537,8 +481,7 @@ export default function PopulationPyramid({
 
               <button
                 onClick={() =>
-                  currentIndex < years.length - 1 &&
-                  onYearChange(years[currentIndex + 1])
+                  currentIndex < years.length - 1 && onYearChange(years[currentIndex + 1])
                 }
                 disabled={currentIndex >= years.length - 1 || isPlaying}
                 className="flex cursor-pointer items-center justify-center text-blue-500 transition-colors duration-150 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-30"
@@ -546,6 +489,39 @@ export default function PopulationPyramid({
               >
                 <FaForwardStep className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
               </button>
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={years.length - 1}
+              value={currentIndex >= 0 ? currentIndex : 0}
+              onChange={handleSliderChange}
+              className="year-slider w-full"
+            />
+
+            <div className="relative mt-1 h-8 w-full sm:h-10">
+              {years.map((y, i) => {
+                const fewYears = years.length <= 10;
+                const isMobileShow = fewYears || i % 20 === 0 || i === years.length - 1;
+                const isSmShow = fewYears || i % 10 === 0 || i === years.length - 1;
+                const isMdShow = fewYears || i % 6 === 0 || i === years.length - 1;
+                const pos = years.length > 1 ? (i / (years.length - 1)) * 100 : 50;
+                return (
+                  <span
+                    key={y}
+                    className={`absolute text-[9px] sm:text-[10px] md:text-xs ${
+                      y === year ? "font-bold text-(--primary)" : "opacity-60"
+                    } ${isMobileShow ? "block" : "hidden"} ${isSmShow ? "sm:block" : "sm:hidden"} ${isMdShow ? "md:block" : "md:hidden"}`}
+                    style={{
+                      left: `${pos}%`,
+                      transform: "translateX(-50%)",
+                    }}
+                  >
+                    {y}
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>

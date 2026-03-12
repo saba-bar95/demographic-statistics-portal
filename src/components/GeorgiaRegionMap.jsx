@@ -32,7 +32,12 @@ function FitToData({ geoJsonData }) {
     if (!geoJsonData) return;
     const bounds = L.geoJSON(geoJsonData).getBounds();
     if (bounds.isValid()) {
-      map.fitBounds(bounds, {});
+      map.invalidateSize();
+      const center = bounds.getCenter();
+      // Shift center up in lat so the map renders lower visually
+      const adjustedCenter = L.latLng(center.lat + 0.15, center.lng);
+      const autoZoom = map.getBoundsZoom(bounds);
+      map.setView(adjustedCenter, autoZoom, { animate: false });
     }
   }, [map, geoJsonData]);
   return null;
@@ -136,7 +141,10 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
   }
 
   return (
-    <div className="relative h-100 w-full overflow-hidden rounded border border-(--text) bg-(--bg) lg:h-full">
+    <div
+      className="relative h-100 w-full overflow-hidden rounded-lg bg-(--bg) lg:h-full"
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center px-3 py-2 text-(--text)">
         <p
           className="text-center text-sm font-semibold text-(--text) sm:text-base"
@@ -157,6 +165,10 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
       {/* Map */}
       <div className="absolute inset-0">
         <MapContainer
+          center={[42.3, 43.5]}
+          zoom={8}
+          zoomSnap={0}
+          zoomDelta={0.25}
           className="h-full w-full bg-(--bg)"
           scrollWheelZoom={false}
           dragging={false}

@@ -9,7 +9,10 @@ import { regionNameTranslations } from "./constants/regionNames";
 import PopulationPyramid from "./components/PopulationPyramid";
 import PopulationCircles from "./components/PopulationCircles";
 import MedianAge from "./components/MedianAge";
-import { useParams } from "react-router-dom";
+import DemographicIndicators from "./components/DemographicIndicators";
+import { useParams, Link } from "react-router-dom";
+import wedEn from "./assets/images/wed_en.jpg";
+import wedKa from "./assets/images/wed_ka.jpg";
 import BannerSection from "./components/BannerSection";
 import BannerModal from "./components/BannerModal";
 import useSummaryData from "./hooks/useSummaryData";
@@ -131,23 +134,53 @@ function App() {
           </div>
 
           {/* Population Circles — cols 6-7, row 1 */}
-          <div className="2xl:col-span-2 2xl:h-full">
-            <PopulationCircles data={summaryData} language={language} />
+          <div
+            className="flex items-center justify-center rounded-lg bg-(--bg) 2xl:col-span-2 2xl:h-full"
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <PopulationCircles
+              data={summaryData}
+              language={language}
+              year={selectedYear}
+              regionName={regionDisplayName}
+            />
           </div>
 
           {/* Empty placeholder — cols 4-5, row 2 */}
-          <div className="rounded-lg border border-(--text) 2xl:col-span-2 2xl:h-full"></div>
+          <div
+            className="rounded-lg bg-(--bg) 2xl:col-span-2 2xl:h-full"
+            style={{ boxShadow: "var(--shadow)" }}
+          ></div>
 
           {/* Median Age — cols 6-7, row 2 */}
-          <div className="2xl:col-span-2 2xl:h-full">
-            <MedianAge data={summaryData} language={language} />
+          <div
+            className="rounded-lg bg-(--bg) 2xl:col-span-2 2xl:h-full"
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <MedianAge data={summaryData} language={language} isRegion={!!selectedRegion.id} />
           </div>
 
-          {/* Empty placeholder — cols 4-5, row 3 */}
-          <div className="rounded-lg border border-(--text) 2xl:col-span-2 2xl:h-full"></div>
+          {/* Demographic Indicators — cols 4-5, row 3 */}
+          <div
+            className="rounded-lg bg-(--bg) 2xl:col-span-2 2xl:h-full"
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <DemographicIndicators data={summaryData} language={language} isRegion={!!selectedRegion.id} />
+          </div>
 
-          {/* Empty placeholder — cols 6-7, row 3 */}
-          <div className="rounded-lg border border-(--text) 2xl:col-span-2 2xl:h-full"></div>
+          {/* Marriages link — cols 6-7, row 3 */}
+          <div
+            className="flex items-center justify-center rounded-lg bg-(--bg) 2xl:col-span-2 2xl:h-full"
+            style={{ boxShadow: "var(--shadow)" }}
+          >
+            <Link to={`/${language}/marriages`} className="block w-3/4 rounded-lg">
+              <img
+                src={language === "en" ? wedEn : wedKa}
+                alt={language === "en" ? "Marriages" : "ქორწინებები"}
+                className="wed-img h-full w-full object-cover"
+              />
+            </Link>
+          </div>
         </main>
       </div>
       <InfoModal isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
