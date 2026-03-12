@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { GeoJSON, MapContainer, useMap } from "react-leaflet";
 import { useParams } from "react-router-dom";
 import L from "leaflet";
-import smallmap from "../assets/images/smallmap.png";
+import GeorgiaMiniMap from "./GeorgiaMiniMap";
 import { regionNameTranslations } from "../constants/regionNames";
 
 const defaultStyle = {
@@ -155,12 +155,13 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
         >
           {mapTitle}
         </p>
-        <img
-          src={smallmap}
-          alt=""
+        <div
           className="absolute top-10 right-10 cursor-pointer"
           onClick={handleWholeGeorgiaSelect}
-        />
+          style={{ width: "80px", height: "40px" }}
+        >
+          <GeorgiaMiniMap selected={!selectedRegionId} />
+        </div>
       </div>
       {/* Map */}
       <div className="absolute inset-0">
@@ -171,6 +172,7 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
           zoomDelta={0.25}
           className="h-full w-full bg-(--bg)"
           scrollWheelZoom={false}
+          doubleClickZoom={false}
           dragging={false}
           zoomControl={false}
           attributionControl={false}
