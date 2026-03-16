@@ -55,7 +55,7 @@ export default function PopulationCircles({ data, language, year, regionName }) 
 
         return (
           <div key={item.label} className="flex min-w-0 flex-col items-center gap-1 sm:gap-2">
-            <div className="relative aspect-square w-full max-w-20 sm:max-w-24 md:max-w-28 lg:max-w-30 2xl:max-w-32">
+            <div className="relative aspect-square w-full max-w-20 md:max-w-24 lg:max-w-28 xl:max-w-30 2xl:max-w-32">
               <svg viewBox={`0 0 ${viewBox} ${viewBox}`} className="h-full w-full -rotate-90">
                 <circle
                   cx={viewBox / 2}
@@ -77,11 +77,11 @@ export default function PopulationCircles({ data, language, year, regionName }) 
                   strokeLinecap="round"
                 />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-(--text) sm:text-sm">
+              <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-(--text) md:text-sm">
                 {item.display}
               </span>
             </div>
-            <span className="text-xs font-medium text-(--text) sm:text-sm">{item.label}</span>
+            <span className="truncate text-xs font-medium text-(--text) md:text-sm">{item.label}</span>
           </div>
         );
       })}

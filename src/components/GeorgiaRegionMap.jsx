@@ -37,7 +37,7 @@ function FitToData({ geoJsonData }) {
       // Shift center up in lat so the map renders lower visually
       const adjustedCenter = L.latLng(center.lat + 0.15, center.lng);
       const autoZoom = map.getBoundsZoom(bounds);
-      map.setView(adjustedCenter, autoZoom, { animate: false });
+      map.setView(adjustedCenter, autoZoom + -0.15, { animate: false });
     }
   }, [map, geoJsonData]);
   return null;
@@ -142,7 +142,7 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
 
   return (
     <div
-      className="relative h-100 w-full overflow-hidden rounded-lg bg-(--bg) lg:h-full"
+      className="relative h-full w-full overflow-hidden rounded-lg bg-(--bg)"
       style={{ boxShadow: "var(--shadow)" }}
     >
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center px-3 py-2 text-(--text)">

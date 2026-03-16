@@ -7,6 +7,17 @@ export default function BannerModal({ isOpen, onClose }) {
   const modalRef = useRef(null);
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
 
     const handleOutsideClick = (event) => {
@@ -30,7 +41,7 @@ export default function BannerModal({ isOpen, onClose }) {
   return (
     <div
       ref={modalRef}
-      className="fixed top-25 left-1/2 z-40 max-h-[80vh] w-full -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-(--text) bg-(--bg) p-4 text-(--text) transition-all duration-300 sm:p-6 md:p-8 lg:w-[calc(65%+25px)]"
+      className="fixed top-25 left-1/2 z-1000 max-h-[80vh] w-full -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-(--text) bg-(--bg) p-4 text-(--text) transition-all duration-300 sm:p-6 md:p-8 lg:w-[calc(65%+25px)]"
     >
       <div className="relative pt-3">
         <div className="mb-4 flex items-start justify-between">
