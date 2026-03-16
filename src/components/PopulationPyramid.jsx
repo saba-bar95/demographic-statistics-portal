@@ -19,6 +19,7 @@ export default function PopulationPyramid({
   lockedYear = null,
   onToggleLock,
   regionName,
+  sliderOverlay,
 }) {
   const chartRef = useRef(null);
   const rootRef = useRef(null);
@@ -412,7 +413,10 @@ export default function PopulationPyramid({
         </div>
       )}
 
-      <div ref={chartRef} className="h-100 w-full sm:h-125 md:h-150 lg:h-0 lg:min-h-0 lg:flex-1" />
+      <div className="flex lg:min-h-0 lg:flex-1">
+        <div ref={chartRef} className="h-100 min-w-0 flex-1 sm:h-125 md:h-150 lg:h-full" />
+        {sliderOverlay}
+      </div>
 
       {years.length > 0 && (
         <div>

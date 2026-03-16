@@ -51,6 +51,19 @@ export async function fetchSummaryByYear(year, { signal } = {}) {
   return response.json();
 }
 
+export async function fetchAgeDetails(year, ageGroups, { signal } = {}) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/years/age-details?year=${encodeURIComponent(year)}&age=${encodeURIComponent(ageGroups.join(","))}`,
+    { signal },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch age details (${response.status})`);
+  }
+
+  return response.json();
+}
+
 export async function fetchRegionSummaryByYear(
   year,
   regionCode,
