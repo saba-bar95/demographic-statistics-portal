@@ -5,6 +5,16 @@
   src: url("/src/assets/fonts/FiraGO-Regular.woff2");
 }
 
+@font-face {
+  font-family: BPGMrgvlovaniCaps;
+  src: url("/src/assets/fonts/bpg_mrgvlovani_caps.ttf");
+}
+
+@font-face {
+  font-family: BPGMrgvlovani;
+  src: url("/src/assets/fonts/bpg_mrgvlovani_0");
+}
+
 :root {
   --bg: #ffffff;
   --text: #0f172a;
@@ -23,6 +33,10 @@
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
+html {
+  font-size: 85%;
+}
+
 html,
 body,
 #root {
@@ -30,6 +44,7 @@ body,
 }
 
 body {
+  font-family: BPGMrgvlovaniCaps, sans-serif;
   background-color: #ededed;
   color: var(--text);
   transition:
@@ -52,7 +67,9 @@ img {
 .wed-img {
   opacity: 0.8;
   transform: scale(1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .wed-img:hover {
@@ -62,12 +79,7 @@ img {
 
 /* Root-level class to enlarge all rem-based text when user toggles text-size */
 html.large-text {
-  font-size: 105%;
-}
-
-h1 {
-  font-family: FiraGORegular;
-  font-feature-settings: "case" on;
+  font-size: 92%;
 }
 
 .leaflet-container,

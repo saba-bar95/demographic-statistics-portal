@@ -20,6 +20,7 @@ export default function PopulationPyramid({
   onToggleLock,
   regionName,
   sliderOverlay,
+  barColorMap,
 }) {
   const chartRef = useRef(null);
   const rootRef = useRef(null);
@@ -36,6 +37,7 @@ export default function PopulationPyramid({
     legend: null,
     chart: null,
   });
+  const barColorMapRef = useRef(null);
 
   // Get theme colors
   const getThemeColors = (isDark) => ({
@@ -86,7 +88,7 @@ export default function PopulationPyramid({
       }),
     );
     yAxis.get("renderer").labels.template.setAll({
-      fontSize: 12,
+      fontSize: 14,
       oversizedBehavior: "wrap",
       fill: colors.text,
     });
@@ -135,11 +137,17 @@ export default function PopulationPyramid({
     );
 
     maleSeries.columns.template.setAll({
-      height: am5.percent(80),
+      height: am5.percent(90),
       strokeOpacity: 0,
       fillOpacity: 0.8,
     });
-    maleSeries.columns.template.set("fill", am5.color(0x5bcefa));
+    maleSeries.columns.template.set("fill", am5.color(0x3daadf));
+    maleSeries.columns.template.adapters.add("fill", (fill, target) => {
+      const map = barColorMapRef.current;
+      const age = target.dataItem?.dataContext?.age;
+      if (map && age && map[age]) return am5.color(map[age]);
+      return fill;
+    });
 
     maleSeries.get("tooltip").label.setAll({
       fontSize: 14,
@@ -171,11 +179,17 @@ export default function PopulationPyramid({
     );
 
     femaleSeries.columns.template.setAll({
-      height: am5.percent(80),
+      height: am5.percent(90),
       strokeOpacity: 0,
       fillOpacity: 0.8,
     });
-    femaleSeries.columns.template.set("fill", am5.color(0xf5a9b8));
+    femaleSeries.columns.template.set("fill", am5.color(0xf03f46));
+    femaleSeries.columns.template.adapters.add("fill", (fill, target) => {
+      const map = barColorMapRef.current;
+      const age = target.dataItem?.dataContext?.age;
+      if (map && age && map[age]) return am5.color(map[age]);
+      return fill;
+    });
 
     femaleSeries.get("tooltip").label.setAll({
       fontSize: 14,
@@ -241,6 +255,9 @@ export default function PopulationPyramid({
     legend.valueLabels.template.setAll({
       fill: colors.text,
       fontSize: 14,
+    });
+    legend.markers.template.setAll({
+      strokeOpacity: 0,
     });
     // Only show main series in legend, not locked overlay series
     legend.data.setAll([maleSeries, femaleSeries]);
@@ -315,7 +332,46 @@ export default function PopulationPyramid({
     seriesRef.current.female.data.setAll(chartData);
     seriesRef.current.lockedMale.data.setAll(isLocked ? chartData : []);
     seriesRef.current.lockedFemale.data.setAll(isLocked ? chartData : []);
+
+    // Re-apply bar colors after new columns are created
+    requestAnimationFrame(() => {
+      const map = barColorMapRef.current;
+      const defM = am5.color(0x3daadf);
+      const defF = am5.color(0xf03f46);
+      seriesRef.current.male?.columns.each((col) => {
+        const age = col.dataItem?.dataContext?.age;
+        const c = map && age && map[age];
+        col.set("fill", c ? am5.color(c) : defM);
+      });
+      seriesRef.current.female?.columns.each((col) => {
+        const age = col.dataItem?.dataContext?.age;
+        const c = map && age && map[age];
+        col.set("fill", c ? am5.color(c) : defF);
+      });
+    });
   }, [data, isLocked, lockedData]);
+
+  // Keep ref in sync and explicitly repaint every column
+  useEffect(() => {
+    barColorMapRef.current = barColorMap;
+    const male = seriesRef.current.male;
+    const female = seriesRef.current.female;
+    if (!male || !female) return;
+
+    const defaultMale = am5.color(0x3daadf);
+    const defaultFemale = am5.color(0xf03f46);
+
+    male.columns.each((col) => {
+      const age = col.dataItem?.dataContext?.age;
+      const c = barColorMap && age && barColorMap[age];
+      col.set("fill", c ? am5.color(c) : defaultMale);
+    });
+    female.columns.each((col) => {
+      const age = col.dataItem?.dataContext?.age;
+      const c = barColorMap && age && barColorMap[age];
+      col.set("fill", c ? am5.color(c) : defaultFemale);
+    });
+  }, [barColorMap]);
 
   const currentIndex = years.indexOf(year);
 
@@ -345,7 +401,7 @@ export default function PopulationPyramid({
         if (idx < years.length - 1) {
           onYearChange(years[idx + 1]);
         } else {
-          setIsPlaying(false);
+          onYearChange(years[0]);
         }
       }, 1000);
     } else {
@@ -419,7 +475,7 @@ export default function PopulationPyramid({
       </div>
 
       {years.length > 0 && (
-        <div>
+        <div className="-mt-2">
           <style>{`
             .year-slider {
               -webkit-appearance: none;
@@ -532,7 +588,10 @@ export default function PopulationPyramid({
       )}
 
       {/* Footnotes */}
-      <div className="mt-2 text-[10px] leading-relaxed opacity-70 sm:text-xs">
+      <div
+        className="mt-2 text-[10px] leading-relaxed italic opacity-70 sm:text-xs"
+        style={{ fontFamily: "BPGMrgvlovani" }}
+      >
         {year > 1993 && (
           <p>
             {language === "ka"

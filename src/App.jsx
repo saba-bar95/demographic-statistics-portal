@@ -54,13 +54,16 @@ function App() {
   // Age range slider state
   const [showAgeSlider, setShowAgeSlider] = useState(false);
   const ageGroups = chartData ? chartData.map((d) => d.age) : [];
-  const [ageRange, setAgeRange] = useState({ low: 3, high: 13 });
+  const [ageRange, setAgeRange] = useState({ low: 4, high: 13 });
   // Keep high in sync when chartData loads
   const ageRangeHigh =
     ageGroups.length > 0
       ? Math.min(ageRange.high || ageGroups.length - 1, ageGroups.length - 1)
       : 0;
   const ageRangeValue = { low: ageRange.low, high: ageRangeHigh };
+
+  // Bar colors from age group sex-ratio ranking
+  const [barColorMap, setBarColorMap] = useState({});
 
   // Locked state lifted here to persist across theme/language changes
   const [isLocked, setIsLocked] = useState(false);
@@ -107,10 +110,10 @@ function App() {
         theme={theme}
         onToggleTheme={toggleTheme}
       />
-      <div className="mx-auto max-w-250 2xl:max-w-470">
-        <main className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2 md:px-8 xl:px-12 2xl:grid-cols-7 2xl:grid-rows-[240px_240px_240px]">
+      <div className="mx-auto max-w-250 2xl:max-w-500">
+        <main className="grid grid-cols-1 gap-4 px-4 md:grid-cols-2 md:px-8 xl:px-12 2xl:grid-cols-7 2xl:grid-rows-[240px_200px_1fr]">
           {/* Population Pyramid — full width on sm/md, cols 1-3 all rows on 2xl */}
-          <div className="h-full md:col-span-2 md:min-h-100 2xl:col-span-3 2xl:row-span-3 2xl:min-h-0 2xl:overflow-hidden">
+          <div className="h-full md:col-span-2 md:min-h-100 2xl:col-span-3 2xl:row-span-3 2xl:min-h-197.5 2xl:overflow-hidden">
             {error && <p className="text-sm text-red-500 sm:text-base">{error.message}</p>}
             {chartData && (
               <div className="relative h-full md:min-h-200 2xl:min-h-0">
@@ -132,6 +135,7 @@ function App() {
                   lockedYear={lockedYear}
                   onToggleLock={handleToggleLock}
                   regionName={regionDisplayName}
+                  barColorMap={showAgeSlider ? barColorMap : null}
                   sliderOverlay={
                     showAgeSlider && ageGroups.length > 0 ? (
                       <div className="w-12 shrink-0 pb-10">
@@ -173,7 +177,7 @@ function App() {
 
           {/* Age slider toggle + details — cols 4-5, row 2 */}
           <div
-            className="h-56.25 max-h-45 overflow-auto rounded-lg bg-(--bg) md:max-h-none 2xl:col-span-2 2xl:h-full"
+            className="flex h-56.25 max-h-45 flex-col items-center justify-center overflow-auto rounded-lg bg-(--bg) md:max-h-none 2xl:col-span-2 2xl:h-full"
             style={{ boxShadow: "var(--shadow)" }}
           >
             <AgeGroupDetails
@@ -183,6 +187,8 @@ function App() {
               language={language}
               showAgeSlider={showAgeSlider}
               onToggleSlider={() => setShowAgeSlider((v) => !v)}
+              onBarColors={setBarColorMap}
+              regionCode={selectedRegion.id}
             />
           </div>
 
@@ -226,8 +232,8 @@ function App() {
       </div>
       <InfoModal isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
       <BannerModal isOpen={isBannerModalOpen} onClose={() => setIsBannerModalOpen(false)} />
-      <div className="mt-25 mb-25 bg-(--bg) py-4">
-        <div className="mx-auto max-w-470 px-4 md:px-8 lg:px-12">
+      <div className="mt-15 mb-15 bg-(--bg) py-4">
+        <div className="mx-auto max-w-500 px-4 md:px-8 lg:px-12">
           <BannerSection language={language} onBannerModalOpen={() => setIsBannerModalOpen(true)} />
         </div>
       </div>

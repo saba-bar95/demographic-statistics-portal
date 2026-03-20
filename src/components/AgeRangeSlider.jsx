@@ -23,13 +23,13 @@ export default function AgeRangeSlider({ ageGroups, value, onChange, theme }) {
       const onMove = (moveE) => {
         const idx = indexFromEvent(moveE.clientY);
         if (handle === "high") {
-          const next = { ...value, high: Math.max(value.low + 1, idx) };
+          const clamped = Math.min(idx, ageGroups.length - 2);
+          const next = { ...value, high: Math.max(value.low + 1, clamped) };
           onChange(next);
-          console.log("Age range →", ageGroups[next.low], "to", ageGroups[next.high]);
         } else {
-          const next = { ...value, low: Math.min(value.high - 1, idx) };
+          const clamped = Math.max(idx, 1);
+          const next = { ...value, low: Math.min(value.high - 1, clamped) };
           onChange(next);
-          console.log("Age range →", ageGroups[next.low], "to", ageGroups[next.high]);
         }
       };
       const onUp = () => {
@@ -48,13 +48,13 @@ export default function AgeRangeSlider({ ageGroups, value, onChange, theme }) {
       const distToLow = Math.abs(idx - value.low);
       const distToHigh = Math.abs(idx - value.high);
       if (distToLow <= distToHigh) {
-        const next = { ...value, low: Math.min(value.high - 1, idx) };
+        const clamped = Math.max(idx, 1);
+        const next = { ...value, low: Math.min(value.high - 1, clamped) };
         onChange(next);
-        console.log("Age range →", ageGroups[next.low], "to", ageGroups[next.high]);
       } else {
-        const next = { ...value, high: Math.max(value.low + 1, idx) };
+        const clamped = Math.min(idx, ageGroups.length - 2);
+        const next = { ...value, high: Math.max(value.low + 1, clamped) };
         onChange(next);
-        console.log("Age range →", ageGroups[next.low], "to", ageGroups[next.high]);
       }
     },
     [value, onChange, indexFromEvent, ageGroups],

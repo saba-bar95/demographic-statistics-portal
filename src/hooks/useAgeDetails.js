@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
-import { fetchAgeDetails } from "../api/chartDataApi";
+import { fetchAgeDetails, fetchRegionAgeDetails } from "../api/chartDataApi";
 
-export default function useAgeDetails(year, ageGroups) {
+export default function useAgeDetails(year, ageGroups, regionCode) {
   const [data, setData] = useState(null);
   const [resolvedKey, setResolvedKey] = useState("");
   const ageKey = ageGroups ? ageGroups.join(",") : "";
-  const requestKey = ageKey ? `${year}:${ageKey}` : "";
+  const requestKey = ageKey ? `${year}:${regionCode || ""}:${ageKey}` : "";
   const isLoading = requestKey !== "" && requestKey !== resolvedKey;
 
   useEffect(() => {
     if (!ageKey) return;
     const controller = new AbortController();
     const groups = ageKey.split(",");
-    const key = `${year}:${ageKey}`;
+    const key = `${year}:${regionCode || ""}:${ageKey}`;
 
-    fetchAgeDetails(year, groups, { signal: controller.signal })
+    const fetchFn = regionCode
+      ? fetchRegionAgeDetails(year, regionCode, groups, { signal: controller.signal })
+      : fetchAgeDetails(year, groups, { signal: controller.signal });
+
+    fetchFn
       .then((res) => {
         setData(res);
         setResolvedKey(key);
@@ -27,7 +31,7 @@ export default function useAgeDetails(year, ageGroups) {
       });
 
     return () => controller.abort();
-  }, [year, ageKey]);
+  }, [year, ageKey, regionCode]);
 
   return { data, isLoading };
 }

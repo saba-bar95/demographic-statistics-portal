@@ -8,7 +8,8 @@
       "Bash(node -e \"const p = require\\(''prettier''\\); console.log\\(p.version\\)\")",
       "Bash(grep '\"\"type\"\"' package.json)",
       "Bash(git reset:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
