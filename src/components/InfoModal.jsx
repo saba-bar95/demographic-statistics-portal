@@ -25,6 +25,15 @@ export default function InfoModal({ isOpen, onClose }) {
 
   useEffect(() => {
     if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isOpen) return;
 
     const handleOutsideClick = (event) => {
       const target = event.target;
@@ -47,28 +56,25 @@ export default function InfoModal({ isOpen, onClose }) {
   return (
     <div
       ref={modalRef}
-      className="fixed top-52 left-1/2 z-1000 max-h-[80vh] w-full -translate-x-1/2 overflow-y-auto rounded-lg border-2 border-(--text) bg-(--bg) p-4 text-(--text) transition-all duration-300 sm:p-6 md:p-8 lg:top-32 lg:w-[calc(65%+25px)]"
+      className="fixed top-52 left-1/2 z-1000 max-h-[80vh] w-full -translate-x-1/2 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-lg border border-gray-300 bg-(--bg) px-4 pb-4 text-(--text) transition-all duration-300 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:top-32 lg:w-[calc(65%+25px)]"
+      style={{ fontFamily: "BPGMrgvlovani" }}
     >
-      <div className="relative pt-3">
-        <div className="mb-4 flex items-start justify-between">
-          <h2 className="text-base font-semibold sm:text-lg md:text-xl">
-            {content.title}
-          </h2>
+      <div className="relative">
+        <div className="-mx-4 mb-4 flex items-center justify-between rounded-t-lg px-4 py-2 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8" style={{ backgroundColor: "#0080be" }}>
+          <h2 className="text-lg font-semibold text-white sm:text-xl md:text-2xl">{content.title}</h2>
           <button
             onClick={onClose}
-            className="shrink-0 cursor-pointer rounded border border-(--text) p-1 transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg)"
+            className="shrink-0 cursor-pointer rounded p-1 text-white transition-colors duration-150 hover:text-white/70"
             title={content.closeTitle}
           >
             <LuX size="1.5rem" />
           </button>
         </div>
 
-        <div className="space-y-4 text-justify text-xs sm:text-sm">
+        <div className="space-y-4 text-justify text-sm sm:text-base">
           <p>{content.intro}</p>
 
-          <h3 className="mt-4 text-sm font-semibold sm:text-base">
-            {content.pyramidTitle}
-          </h3>
+          <h3 className="mt-4 text-base font-semibold sm:text-lg">{content.pyramidTitle}</h3>
           <p>{content.pyramidBody}</p>
 
           <h3 className="mt-4 text-sm font-semibold italic sm:text-base">
@@ -80,18 +86,14 @@ export default function InfoModal({ isOpen, onClose }) {
               : content.instructionsBody}
           </div>
 
-          <h3 className="mt-4 text-sm font-semibold sm:text-base">
-            {content.indicatorsTitle}
-          </h3>
+          <h3 className="mt-4 text-base font-semibold sm:text-lg">{content.indicatorsTitle}</h3>
           <ul className="ml-2 list-inside list-disc space-y-2">
             {content.indicators.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
 
-          <h3 className="mt-4 text-sm font-semibold sm:text-base">
-            {content.marriageTitle}
-          </h3>
+          <h3 className="mt-4 text-base font-semibold sm:text-lg">{content.marriageTitle}</h3>
           <p>{content.marriageBody}</p>
 
           <p>
@@ -99,9 +101,7 @@ export default function InfoModal({ isOpen, onClose }) {
             {content.noteBody}
           </p>
 
-          <h3 className="mt-4 text-sm font-semibold sm:text-base">
-            {content.lifeTitle}
-          </h3>
+          <h3 className="mt-4 text-base font-semibold sm:text-lg">{content.lifeTitle}</h3>
           <p>{content.lifeBody}</p>
 
           <p>{content.methodologyTitle}</p>
@@ -142,12 +142,10 @@ export default function InfoModal({ isOpen, onClose }) {
           <div className="flex justify-end pt-2">
             <button
               onClick={onClose}
-              className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded border border-(--text) px-3 py-1 transition-colors duration-150 hover:bg-(--primary) hover:text-(--bg)"
+              className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded border border-(--text) px-3 py-1 transition-colors duration-150 hover:bg-[#0080be] hover:text-white"
               title={content.closeTitle}
             >
-              <span className="text-xs sm:text-sm">
-                {language === "en" ? "Close" : "დახურვა"}
-              </span>
+              <span className="text-sm sm:text-base">{language === "en" ? "Close" : "დახურვა"}</span>
             </button>
           </div>
         </div>

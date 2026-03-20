@@ -1,8 +1,5 @@
-import icon1 from "../assets/images/icon1.png";
-import icon2 from "../assets/images/icon2.png";
-import icon3 from "../assets/images/icon3.png";
-import icon4 from "../assets/images/icon4.png";
-import icon5 from "../assets/images/icon5.png";
+import { FaBackwardStep, FaForwardStep, FaCirclePlay } from "react-icons/fa6";
+import { LuLockOpen } from "react-icons/lu";
 
 export const infoModalContent = {
   ka: {
@@ -15,55 +12,47 @@ export const infoModalContent = {
     instructionsTitle: "გამოყენების ინსტრუქცია:",
     instructionsBody: () => (
       <p>
-        თავდაპირველად პირამიდა ასახავს საქართველოს მოსახლეობის
-        სქესობრივ-ასაკობრივ განაწილებას 2019 წლის 1 იანვრის მდგომარეობით.
-        გამშვები ღილაკის (
-        <img
-          src={icon1}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        თავდაპირველად პირამიდა ასახავს საქართველოს მოსახლეობის სქესობრივ-ასაკობრივ განაწილებას 2019
+        წლის 1 იანვრის მდგომარეობით. გამშვები ღილაკის (
+        <FaCirclePlay
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) გააქტიურების შემდგომ დიაგრამა ასახავს სტატისტიკის ეროვნული
-        სამსახურისთვის ხელმისაწვდომ მონაცემებს შესაბამისი წლების მიხედვით.
-        მომხმარებლის სურვილის შემთხვევაში „შემდეგი“ და „წინა“ ფუნქციური
-        ღილაკების (
-        <img
-          src={icon2}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        ) გააქტიურების შემდგომ დიაგრამა ასახავს სტატისტიკის ეროვნული სამსახურისთვის ხელმისაწვდომ
+        მონაცემებს შესაბამისი წლების მიხედვით. მომხმარებლის სურვილის შემთხვევაში „შემდეგი“ და „წინა“
+        ფუნქციური ღილაკების (
+        <FaBackwardStep
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) გამოყენებით შესაძლებელია პირამიდის გადაყვანა მომდევნო ან წინა
-        ხელმისაწვდომ წელზე. ბლოკირების ფუნქციური ღილაკი (
-        <img
-          src={icon3}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        <FaForwardStep
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) მომხმარებელს საშუალებას აძლევს დააფიქსიროს სასურველი წელი და აღნიშნული
-        წლის მოსახლეობის სტრუქტურის კონტური შენარჩუნდება სხვა წლებზე
-        გადაადგილების მიუხედავად, რაც ამარტივებს მოსახლეობის ასაკობრივი
-        სტრუქტურის ცვლილების ხილვას. მომხმარებელს შეუძლია მოსახლეობის პორტალზე
-        დამატებით მონიშნოს სამი ასაკობრივი ჯგუფი, რაც შესაძლებელია ჩანართი
-        „ასაკობრივი ჯგუფები“-ის გააქტიურების (
-        <img
-          src={icon4}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        ) გამოყენებით შესაძლებელია პირამიდის გადაყვანა მომდევნო ან წინა ხელმისაწვდომ წელზე.
+        ბლოკირების ფუნქციური ღილაკი (
+        <LuLockOpen
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) შემდგომ პირამიდის დიაგრამის მარჯვნივ განთავსებულ სვეტზე მოძრავი
-        ღილაკის (
-        <img
-          src={icon5}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
-        />
-        ) გადაადგილებით. მომხმარებელს დამატებით შეუძლია მონაცემები იხილოს ასევე
-        საქართველოს რეგიონების მიხედვით. ამისთვის საჭიროა საქართველოს რუკაზე
-        აირჩიოს რეგიონი.
+        ) მომხმარებელს საშუალებას აძლევს დააფიქსიროს სასურველი წელი და აღნიშნული წლის მოსახლეობის
+        სტრუქტურის კონტური შენარჩუნდება სხვა წლებზე გადაადგილების მიუხედავად, რაც ამარტივებს
+        მოსახლეობის ასაკობრივი სტრუქტურის ცვლილების ხილვას. მომხმარებელს შეუძლია მოსახლეობის
+        პორტალზე დამატებით მონიშნოს სამი ასაკობრივი ჯგუფი, რაც შესაძლებელია ჩანართი „ასაკობრივი
+        ჯგუფები“-ის გააქტიურების (
+        <span className="relative mx-1 inline-block h-4 w-8 rounded-full bg-[#0080be] align-middle md:h-6 md:w-11">
+          <span className="absolute top-0.5 left-0.5 h-3 w-3 translate-x-4 rounded-full bg-white shadow md:h-5 md:w-5 md:translate-x-5" />
+        </span>
+        ) შემდგომ პირამიდის დიაგრამის მარჯვნივ განთავსებულ სვეტზე მოძრავი ღილაკების (
+        <span className="relative mx-1 inline-flex h-[2em] w-[0.5em] items-center rounded-full bg-gray-300 align-middle">
+          <span className="absolute top-[20%] left-1/2 h-[0.4em] w-[1em] -translate-x-1/2 rounded-sm bg-gray-500" />
+          <span className="absolute top-[65%] left-1/2 h-[0.4em] w-[1em] -translate-x-1/2 rounded-sm bg-gray-500" />
+        </span>
+        ) გადაადგილებით. მომხმარებელს დამატებით შეუძლია მონაცემები იხილოს ასევე საქართველოს
+        რეგიონების მიხედვით. ამისთვის საჭიროა საქართველოს რუკაზე აირჩიოს რეგიონი.
       </p>
     ),
-    indicatorsTitle:
-      "პორტალზე ასევე შესაძლებელია შემდეგი დემოგრაფიული მაჩვენებლების ნახვა:",
+    indicatorsTitle: "პორტალზე ასევე შესაძლებელია შემდეგი დემოგრაფიული მაჩვენებლების ნახვა:",
     indicators: [
       "მოსახლეობის რიცხოვნობა და პროცენტული განაწილება სქესის მიხედვით;",
       "სქესთა რაოდენობრივი თანაფარდობის კოეფიციენტი და მოსახლეობის პროცენტული განაწილება სამი ძირითადი ასაკობრივი ჯგუფის მიხედვით;",
@@ -83,7 +72,7 @@ export const infoModalContent = {
       "ინტერაქტიული კალკულატორით სარგებლობისთვის, მომხმარებელმა უნდა აირჩიოს ასაკი (0-85 წლის ინტერვალში) და სქესი.მომხმარებელი მიიღებს ინფორმაციას სიცოცხლის მოსალოდნელი ხანგრძლივობის შესახებ 2018 წლის მონაცემების მიხედვით.",
     methodologyTitle: "სრული მეთოდოლოგია იხილეთ აქ:",
     methodologyLink:
-      "https://www.geostat.ge/media/23365/mosaxleoba-da-demograpia-%28geo%29.pdf",
+      "https://www.geostat.ge/ka/modules/categories/124/methodologia-mosakhleobis-aghtsera-da-demografia",
     closeTitle: "დახურვა",
   },
   en: {
@@ -96,46 +85,44 @@ export const infoModalContent = {
     instructionsTitle: "Instructions for use:",
     instructionsBody: () => (
       <p>
-        Initially, the population pyramid reflects the age-sex distribution of
-        the population of Georgia as of January 1, 2019. After the activation of
-        the launch-button (
-        <img
-          src={icon1}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        Initially, the population pyramid reflects the age-sex distribution of the population of
+        Georgia as of January 1, 2019. After the activation of the launch-button (
+        <FaCirclePlay
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) the chart shows the data available to the National Statistics Office
-        by the relevant years. The "Next"/"Previous" functional buttons (
-        <img
-          src={icon2}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        ) the chart shows the data available to the National Statistics Office by the relevant
+        years. The "Next"/"Previous" functional buttons (
+        <FaBackwardStep
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) switch the pyramid to the next/previous available year. The lock
-        function button (
-        <img
-          src={icon3}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        <FaForwardStep
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) allows the user to specify the desired year and the outline of the
-        population structure of that year will be fixed, making it easier to see
-        the age structure change in the different years in comparison to the
-        “frozen” one. Additionally, on the population pyramid the user can
-        select three age groups, which can be set by moving the button (
-        <img
-          src={icon4}
-          alt="Instructions"
-          className="mx-1 inline-block h-[1.5em] w-auto rounded align-middle"
+        ) switch the pyramid to the next/previous available year. The lock function button (
+        <LuLockOpen
+          className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5"
+          style={{ display: "inline-block", color: "var(--primary)" }}
         />
-        ) on the column on the right-hand side of pyramid diagram after
-        activating the Age Groups tab. Users can also view data by regions of
-        Georgia. To do this, you need to choose the region on the map of
-        Georgia.
+        ) allows the user to specify the desired year and the outline of the population structure of
+        that year will be fixed, making it easier to see the age structure change in the different
+        years in comparison to the “frozen” one. Additionally, on the population pyramid the user
+        can select three age groups, which can be set by activating the Age Groups tab (
+        <span className="relative mx-1 inline-block h-4 w-8 rounded-full bg-[#0080be] align-middle md:h-6 md:w-11">
+          <span className="absolute top-0.5 left-0.5 h-3 w-3 translate-x-4 rounded-full bg-white shadow md:h-5 md:w-5 md:translate-x-5" />
+        </span>
+        ) and moving the slider (
+        <span className="relative mx-1 inline-flex h-[2em] w-[0.5em] items-center rounded-full bg-gray-300 align-middle">
+          <span className="absolute top-[20%] left-1/2 h-[0.4em] w-[1em] -translate-x-1/2 rounded-sm bg-gray-500" />
+          <span className="absolute top-[65%] left-1/2 h-[0.4em] w-[1em] -translate-x-1/2 rounded-sm bg-gray-500" />
+        </span>
+        ) on the column on the right-hand side of the pyramid diagram. Users can also view data by
+        regions of Georgia. To do this, you need to choose the region on the map of Georgia.
       </p>
     ),
-    indicatorsTitle:
-      "The portal also contains the following demographic indicators:",
+    indicatorsTitle: "The portal also contains the following demographic indicators:",
     indicators: [
       "Number of population and percentage distribution by sex;",
       "Sex ratio and percentage distribution of population by three main age groups;",
@@ -155,7 +142,7 @@ export const infoModalContent = {
       "To use the interactive calculator, the user must select the age (between 0-85 years) and sex. Users will receive information on their life expectancy based on 2018 data.",
     methodologyTitle: "The full methodology is available at:",
     methodologyLink:
-      "https://www.geostat.ge/media/23366/Population-and-Demography-%28eng%29.pdf",
+      "https://www.geostat.ge/en/modules/categories/124/methodologia-population-census-and-demography",
     closeTitle: "Close",
   },
 };
