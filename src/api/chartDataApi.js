@@ -64,6 +64,33 @@ export async function fetchAgeDetails(year, ageGroups, { signal } = {}) {
   return response.json();
 }
 
+export async function fetchRegionAgeDetails(year, regionCode, ageGroups, { signal } = {}) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/regionyears/age-details?year=${encodeURIComponent(year)}&region_code=${encodeURIComponent(regionCode)}&age=${encodeURIComponent(ageGroups.join(","))}`,
+    { signal },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch region age details (${response.status})`);
+  }
+
+  return response.json();
+}
+
+export async function fetchLifeExpectancy(age, year, gender, { signal } = {}) {
+  let url = `${API_BASE_URL}/api/lifedata/expectancy?age=${encodeURIComponent(age)}&year=${encodeURIComponent(year)}`;
+  if (gender) {
+    url += `&gender=${encodeURIComponent(gender)}`;
+  }
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch life expectancy (${response.status})`);
+  }
+
+  return response.json();
+}
+
 export async function fetchRegionSummaryByYear(
   year,
   regionCode,
