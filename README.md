@@ -1,16 +1,79 @@
-# React + Vite
+## ⚡ Project: Demographic Statistics Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Demographic Statistics Portal – Georgia Edition** is a web-based platform that aggregates and visualizes **Georgia's key demographic indicators**. Explore trends in **population structure, age-sex distribution, life expectancy, marriages**, and more — through interactive dashboards and intuitive charts.
 
-Currently, two official plugins are available:
+Built for **policymakers, researchers, and the public**, it delivers **data-driven insights** into Georgia's demographic performance in a clean, accessible format.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 📊 **Population Pyramid** – animated age-sex structure from 1926 to present with lock & compare functionality
+- 🗺️ **Interactive regional map** – explore demographic data by Georgian regions via GeoJSON
+- 🧮 **Life Expectancy Calculator** – find your life expectancy by age, gender, and year
+- 💍 **Marriage statistics** – interactive distribution chart by age and gender
+- 📈 **Demographic indicators**: population count, sex ratio, median age, birth rate, natural increase, net migration
+- 🎚️ **Custom age groups** – select and compare up to three age ranges on the pyramid
+- 🌐 **Bilingual interface**: Georgian (`/ka`) | English (`/en`)
+- 🌙 **Dark/Light mode** – toggle between themes
+- ♿ **Accessibility** – text size toggle for improved readability
+- 📱 **Fully responsive** – seamless on mobile, tablet, desktop
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🖼️ Screenshot
+
+![Dashboard Overview](overview.png)
+
+---
+
+## 🚀 Live Demo
+
+🔗 **[demographic-statistics-portal.vercel.app](https://demographic-statistics-portal.vercel.app/)**
+_(Toggle language in the top-right corner)_
+
+---
+
+## 📊 Data Sources
+
+All data is sourced from **official Georgian institutions**, including:
+
+- [National Statistics Office of Georgia (Geostat)](https://www.geostat.ge/en)
+- Population census data (1926–2014)
+- Annual demographic estimates (1994–present)
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|---|---|
+| **Framework** | [React 19](https://reactjs.org/) |
+| **Build Tool** | [Vite](https://vitejs.dev/) |
+| **Routing** | [React Router DOM v7](https://reactrouter.com/) |
+| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) |
+| **Charts** | [AMCharts5](https://www.amcharts.com/) |
+| **Maps** | [Leaflet](https://leafletjs.com/) + GeoJSON |
+| **Icons** | [React Icons](https://react-icons.github.io/react-icons/) + [Flag Icons](https://flagicons.lipis.dev/) |
+| **Exports** | jsPDF, xlsx |
+| **Analytics** | [Vercel Analytics](https://vercel.com/analytics) |
+| **Deployment** | [Vercel](https://vercel.com/) |
+
+---
+
+## 🔧 Getting Started Locally
+
+```bash
+git clone https://github.com/saba-bar95/demographic-statistics-portal.git
+cd demographic-statistics-portal
+npm install
+npm run dev
+```
+
+App runs at **http://localhost:5173**
+
+---
+
+### 👨‍💻 Author
+
+[Saba Barbakadze – GitHub Profile](https://github.com/saba-bar95)
