@@ -67,7 +67,7 @@ export default function BannerModal({ isOpen, onClose }) {
   return (
     <div
       ref={modalRef}
-      className="fixed top-25 left-1/2 z-1000 w-[90%] -translate-x-1/2 rounded-lg border border-gray-300 bg-(--bg) px-3 pb-3 text-(--text) transition-all duration-300 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:w-[calc(65%+25px)]"
+      className="fixed top-4 left-1/2 z-1000 max-h-[calc(100vh-2rem)] w-[90%] -translate-x-1/2 overflow-y-auto rounded-lg border border-gray-300 bg-(--bg) px-3 pb-3 text-(--text) transition-all duration-300 sm:px-6 sm:pb-6 md:px-8 md:pb-8 lg:w-[calc(65%+25px)]"
       style={{ fontFamily: "BPGMrgvlovani" }}
     >
       <div className="relative">
