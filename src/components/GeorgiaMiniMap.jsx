@@ -13,25 +13,23 @@ function GeorgiaMiniMap({ selected = false }) {
         let maxX = -Infinity;
         let maxY = -Infinity;
 
+        const ringToPath = (ring) =>
+          ring
+            .map((coord, i) => {
+              const x = coord[0];
+              const y = -coord[1]; // invert Y for SVG
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+              return `${i === 0 ? "M" : "L"}${x},${y}`;
+            })
+            .join(" ") + " Z";
+
         const svgPaths = geojson.features.map((feature) => {
-          const rings = feature.geometry.coordinates;
-          const d = rings
-            .map(
-              (ring) =>
-                ring
-                  .map((coord, i) => {
-                    const x = coord[0];
-                    const y = -coord[1]; // invert Y for SVG
-                    if (x < minX) minX = x;
-                    if (x > maxX) maxX = x;
-                    if (y < minY) minY = y;
-                    if (y > maxY) maxY = y;
-                    return `${i === 0 ? "M" : "L"}${x},${y}`;
-                  })
-                  .join(" ") + " Z",
-            )
-            .join(" ");
-          return d;
+          const { type, coordinates } = feature.geometry;
+          const polygons = type === "MultiPolygon" ? coordinates : [coordinates];
+          return polygons.map((rings) => rings.map(ringToPath).join(" ")).join(" ");
         });
 
         const padding = 0.1;
@@ -42,7 +40,8 @@ function GeorgiaMiniMap({ selected = false }) {
 
         setViewBox(`${vbX} ${vbY} ${vbW} ${vbH}`);
         setPaths(svgPaths);
-      });
+      })
+      .catch(() => {});
   }, []);
 
   return (

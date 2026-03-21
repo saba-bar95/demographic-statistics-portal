@@ -146,7 +146,7 @@ export default function GeorgiaRegionMap({ onRegionSelect, selectedRegionId = nu
       style={{ boxShadow: "var(--shadow)" }}
     >
       <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-center px-3 py-2 text-(--text)">
-        <p className="text-center text-base text-(--text) text-[#0080be] sm:text-lg">{mapTitle}</p>
+        <p className="text-center text-base text-(--text) sm:text-lg">{mapTitle}</p>
         <div
           className="absolute top-10 right-10 cursor-pointer"
           onClick={handleWholeGeorgiaSelect}
