@@ -41,7 +41,7 @@ export default function AgeGroupDetails({
     return allAgeGroups.slice(low, high + 1);
   }, [allAgeGroups, ageRange]);
 
-  const { data, isLoading } = useAgeDetails(year, selectedAgeGroups, regionCode);
+  const { data } = useAgeDetails(year, selectedAgeGroups, regionCode);
 
   // Sort: lowest age groups at bottom (< 15 last), 65+ on top
   const sorted = useMemo(() => {
@@ -122,11 +122,7 @@ export default function AgeGroupDetails({
 
         {/* Data rows */}
         <div className="min-w-0 flex-1 overflow-y-auto">
-          {isLoading ? (
-            <p className="text-center text-xs opacity-60">
-              {language === "ka" ? "იტვირთება..." : "Loading..."}
-            </p>
-          ) : sorted.length > 0 ? (
+          {sorted.length > 0 ? (
             <div className="flex flex-col gap-1 md:gap-2">
               {sorted.map((item) => (
                 <div

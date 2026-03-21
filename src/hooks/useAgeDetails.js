@@ -25,7 +25,6 @@ export default function useAgeDetails(year, ageGroups, regionCode) {
       })
       .catch((err) => {
         if (err?.name !== "AbortError") {
-          setData(null);
           setResolvedKey(key);
         }
       });
