@@ -4,48 +4,48 @@ import {
   fetchRegionDataByYear,
 } from "../api/chartDataApi";
 
-export default function useChartData(year = 2025, regionCode = null) {
+export default function useChartData(year, regionCode = null) {
   const [chartData, setChartData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [resolvedKey, setResolvedKey] = useState("");
 
-  const loadChartData = useCallback(
-    async (targetYear, targetRegion, { signal } = {}) => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const payload = targetRegion
-          ? await fetchRegionDataByYear(targetYear, targetRegion, { signal })
-          : await fetchChartDataByYear(targetYear, { signal });
-        setChartData(payload);
-      } catch (err) {
-        if (err?.name === "AbortError") return;
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [],
-  );
+  const requestKey = year != null ? `${year}:${regionCode ?? ""}` : "";
+  const loading = requestKey !== "" && requestKey !== resolvedKey;
 
   useEffect(() => {
+    if (year == null) return;
     const controller = new AbortController();
-    loadChartData(year, regionCode, { signal: controller.signal });
+    const key = `${year}:${regionCode ?? ""}`;
+
+    const fetchFn = regionCode
+      ? fetchRegionDataByYear(year, regionCode, { signal: controller.signal })
+      : fetchChartDataByYear(year, { signal: controller.signal });
+
+    fetchFn
+      .then((payload) => {
+        setChartData(payload);
+        setError(null);
+        setResolvedKey(key);
+      })
+      .catch((err) => {
+        if (err?.name === "AbortError") return;
+        setError(err);
+        setResolvedKey(key);
+      });
 
     return () => {
       controller.abort();
     };
-  }, [year, regionCode, loadChartData]);
+  }, [year, regionCode]);
 
-  const refetch = useCallback(
-    () => loadChartData(year, regionCode),
-    [year, regionCode, loadChartData],
-  );
+  const refetch = useCallback(() => {
+    if (year == null) return;
+    setResolvedKey("");
+  }, [year]);
 
   return {
     chartData,
-    isLoading,
+    isLoading: loading,
     error,
     refetch,
   };

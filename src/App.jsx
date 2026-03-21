@@ -19,6 +19,8 @@ import useSummaryData from "./hooks/useSummaryData";
 import AgeRangeSlider from "./components/AgeRangeSlider";
 import AgeGroupDetails from "./components/AgeGroupDetails";
 
+const REGION_YEARS = [1989, 2002, 2014];
+
 function App() {
   const { language } = useParams();
 
@@ -33,14 +35,15 @@ function App() {
     id: null,
     name: null,
   });
-  const REGION_YEARS = [1989, 2002, 2014];
-  const [selectedYear, setSelectedYear] = useState(2025);
-  const { chartData, isLoading, error } = useChartData(selectedYear, selectedRegion.id);
+  const [selectedYear, setSelectedYear] = useState(null);
   const { years: allYears } = useAvailableYears();
-  const { summaryData } = useSummaryData(selectedYear, selectedRegion.id);
 
   // Use region-specific years when a region is selected
   const years = selectedRegion.id ? REGION_YEARS : allYears;
+  const effectiveYear = selectedYear ?? years?.[years.length - 1] ?? null;
+
+  const { chartData, isLoading, error } = useChartData(effectiveYear, selectedRegion.id);
+  const { summaryData } = useSummaryData(effectiveYear, selectedRegion.id);
 
   // Derive translated region name based on current language
   const regionDisplayName = selectedRegion.name
@@ -77,7 +80,7 @@ function App() {
   const handleToggleLock = () => {
     if (!isLocked) {
       setLockedData(chartData);
-      setLockedYear(selectedYear);
+      setLockedYear(effectiveYear);
       setIsLocked(true);
     } else {
       setLockedData(null);
@@ -94,10 +97,10 @@ function App() {
     setLockedYear(null);
     // Keep current year if valid for target, otherwise pick closest
     const targetYears = region.id ? REGION_YEARS : allYears;
-    if (targetYears.length > 0 && !targetYears.includes(selectedYear)) {
+    if (targetYears.length > 0 && !targetYears.includes(effectiveYear)) {
       // Find the closest available year
       const closest = targetYears.reduce((prev, curr) =>
-        Math.abs(curr - selectedYear) < Math.abs(prev - selectedYear) ? curr : prev,
+        Math.abs(curr - effectiveYear) < Math.abs(prev - effectiveYear) ? curr : prev,
       );
       setSelectedYear(closest);
     }
@@ -127,7 +130,7 @@ function App() {
                   data={chartData}
                   language={language}
                   years={years}
-                  year={selectedYear}
+                  year={effectiveYear}
                   onYearChange={handleYearChange}
                   theme={theme}
                   isLocked={isLocked}
@@ -170,7 +173,7 @@ function App() {
             <PopulationCircles
               data={summaryData}
               language={language}
-              year={selectedYear}
+              year={effectiveYear}
               regionName={regionDisplayName}
             />
           </div>
@@ -183,7 +186,7 @@ function App() {
             <AgeGroupDetails
               chartData={chartData}
               ageRange={ageRangeValue}
-              year={selectedYear}
+              year={effectiveYear}
               language={language}
               showAgeSlider={showAgeSlider}
               onToggleSlider={() => setShowAgeSlider((v) => !v)}

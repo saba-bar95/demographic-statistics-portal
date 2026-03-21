@@ -1,44 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchSummaryByYear,
   fetchRegionSummaryByYear,
 } from "../api/chartDataApi";
 
-export default function useSummaryData(year = 2025, regionCode = null) {
+export default function useSummaryData(year, regionCode = null) {
   const [summaryData, setSummaryData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [resolvedKey, setResolvedKey] = useState("");
 
-  const loadData = useCallback(
-    async (targetYear, targetRegion, { signal } = {}) => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const payload = targetRegion
-          ? await fetchRegionSummaryByYear(targetYear, targetRegion, { signal })
-          : await fetchSummaryByYear(targetYear, { signal });
-
-        const item = Array.isArray(payload) ? payload[0] : payload;
-        setSummaryData(item ?? null);
-      } catch (err) {
-        if (err?.name === "AbortError") return;
-        setError(err);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [],
-  );
+  const requestKey = year != null ? `${year}:${regionCode ?? ""}` : "";
+  const isLoading = requestKey !== "" && requestKey !== resolvedKey;
 
   useEffect(() => {
+    if (year == null) return;
     const controller = new AbortController();
-    loadData(year, regionCode, { signal: controller.signal });
+    const key = `${year}:${regionCode ?? ""}`;
+
+    const fetchFn = regionCode
+      ? fetchRegionSummaryByYear(year, regionCode, { signal: controller.signal })
+      : fetchSummaryByYear(year, { signal: controller.signal });
+
+    fetchFn
+      .then((payload) => {
+        const item = Array.isArray(payload) ? payload[0] : payload;
+        setSummaryData(item ?? null);
+        setError(null);
+        setResolvedKey(key);
+      })
+      .catch((err) => {
+        if (err?.name === "AbortError") return;
+        setError(err);
+        setResolvedKey(key);
+      });
 
     return () => {
       controller.abort();
     };
-  }, [year, regionCode, loadData]);
+  }, [year, regionCode]);
 
   return { summaryData, isLoading, error };
 }

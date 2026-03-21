@@ -7,8 +7,10 @@ import useMarriagesData from "./hooks/useMarriagesData";
 
 function Marriages() {
   const { language } = useParams();
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const { years, total, distribution, isLoading } = useMarriagesData(selectedYear);
+  const [selectedYear, setSelectedYear] = useState(null);
+  const { years } = useMarriagesData(null);
+  const effectiveYear = selectedYear ?? years?.[years.length - 1] ?? null;
+  const { total, distribution, isLoading } = useMarriagesData(effectiveYear);
 
   useEffect(() => {
     document.title =
@@ -22,7 +24,7 @@ function Marriages() {
         <main className="px-4 pb-8 md:px-8 xl:px-12">
           <MarriageYearSlider
             years={years}
-            selectedYear={selectedYear}
+            selectedYear={effectiveYear}
             onYearChange={setSelectedYear}
             total={total}
             isLoading={isLoading}
