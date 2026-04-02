@@ -1,6 +1,6 @@
 import { IoPeople } from "react-icons/io5";
-
-const IMG_BASE = "https://database.geostat.ge/pyramid/img/";
+import maleImg from "../assets/images/medianAge/male.png";
+import femaleImg from "../assets/images/medianAge/female.png";
 
 export default function MedianAge({ data, language, isRegion }) {
   if (!data) return null;
@@ -17,12 +17,12 @@ export default function MedianAge({ data, language, isRegion }) {
     {
       label: language === "ka" ? "მამაკაცი" : "Male",
       value: median_male,
-      img: `${IMG_BASE}kaci.png`,
+      img: maleImg,
     },
     {
       label: language === "ka" ? "ქალი" : "Female",
       value: median_female,
-      img: `${IMG_BASE}qali.png`,
+      img: femaleImg,
     },
   ];
 
