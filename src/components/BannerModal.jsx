@@ -10,7 +10,7 @@ export default function BannerModal({ isOpen, onClose }) {
   const modalRef = useRef(null);
   const [age, setAge] = useState("");
   const [gender, setGender] = useState(null);
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2025);
   const [result, setResult] = useState(null);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function BannerModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const years = [2019, 2020, 2021, 2022, 2023, 2024];
+  const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
   return (
     <div
@@ -71,7 +71,10 @@ export default function BannerModal({ isOpen, onClose }) {
       style={{ fontFamily: "BPGMrgvlovani" }}
     >
       <div className="relative">
-        <div className="-mx-3 mb-6 flex justify-end rounded-t-lg px-3 py-2 sm:-mx-6 sm:mb-8 sm:px-6 md:-mx-8 md:px-8" style={{ backgroundColor: "#0080be" }}>
+        <div
+          className="-mx-3 mb-6 flex justify-end rounded-t-lg px-3 py-2 sm:-mx-6 sm:mb-8 sm:px-6 md:-mx-8 md:px-8"
+          style={{ backgroundColor: "#0080be" }}
+        >
           <button
             onClick={onClose}
             className="shrink-0 cursor-pointer rounded p-1 text-white transition-colors duration-150 hover:text-white/70"
