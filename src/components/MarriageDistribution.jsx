@@ -1,10 +1,23 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import useTheme from "../hooks/useTheme";
+import img01m from "../assets/images/marriages/01m.png";
+import img02m from "../assets/images/marriages/02m.png";
+import img03m from "../assets/images/marriages/03m.png";
+import img04m from "../assets/images/marriages/04m.png";
+import img01f from "../assets/images/marriages/01f.png";
+import img02f from "../assets/images/marriages/02f.png";
+import img03f from "../assets/images/marriages/03f.png";
+import img04f from "../assets/images/marriages/04f.png";
 
 const SKIP = "არ არის მითითებული";
 const displayGroup = (g) => (g === "16-19" ? "<20" : g);
 
-const IMG_BASE = "https://database.geostat.ge/pyramid/img/";
+const CLUSTER_IMGS = {
+  "01": { m: img01m, f: img01f },
+  "02": { m: img02m, f: img02f },
+  "03": { m: img03m, f: img03f },
+  "04": { m: img04m, f: img04f },
+};
 // Map first age group of each cluster to its image number
 const CLUSTER_IMG = { "16-19": "01", "30-34": "02", "45-49": "03", "60+": "04" };
 
@@ -232,7 +245,7 @@ export default function MarriageDistribution({ data, language }) {
               <div key={cluster.imgKey} className="flex items-center gap-2 sm:gap-3 md:gap-5">
                 <div className="flex shrink-0 flex-col items-center gap-1">
                   <img
-                    src={`${IMG_BASE}${cluster.imgNum}m.png`}
+                    src={CLUSTER_IMGS[cluster.imgNum].m}
                     alt="Male icon"
                     className="min-h-16 w-4 min-w-20 self-stretch object-contain object-center sm:min-h-24 sm:w-5 sm:min-w-32 md:min-h-30 md:min-w-40"
                   />
@@ -310,7 +323,7 @@ export default function MarriageDistribution({ data, language }) {
                 </div>
                 <div className="flex shrink-0 flex-col items-center gap-1">
                   <img
-                    src={`${IMG_BASE}${cluster.imgNum}f.png`}
+                    src={CLUSTER_IMGS[cluster.imgNum].f}
                     alt="Female icon"
                     className="min-h-16 w-4 min-w-20 self-stretch object-contain object-center sm:min-h-24 sm:w-5 sm:min-w-32 md:min-h-30 md:min-w-40"
                   />

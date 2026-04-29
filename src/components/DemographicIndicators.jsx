@@ -1,4 +1,6 @@
-const IMG_BASE = "https://database.geostat.ge/pyramid/img/";
+import shobadobaImg from "../assets/images/demographicIndicators/shobadoba.png";
+import bunebrivivImg from "../assets/images/demographicIndicators/bunebrivi mateba.png";
+import migraciaImg from "../assets/images/demographicIndicators/migracia.png";
 
 export default function DemographicIndicators({ data, language, isRegion }) {
   if (!data) return null;
@@ -9,19 +11,19 @@ export default function DemographicIndicators({ data, language, isRegion }) {
     {
       label: language === "ka" ? "შობადობის ზოგადი კოეფიციენტი" : "Crude Birth Rate",
       value: isRegion ? null : tfr,
-      img: `${IMG_BASE}shobadoba.png`,
+      img: shobadobaImg,
     },
     {
       label: language === "ka" ? "ბუნებრივი მატება" : "Natural Increase",
       value: isRegion ? null : natinc,
-      img: `${IMG_BASE}bunebrivi%20mateba.png`,
+      img: bunebrivivImg,
       valueColor:
         !isRegion && natinc != null ? (natinc >= 0 ? "text-green-500" : "text-red-500") : null,
     },
     {
       label: language === "ka" ? "მიგრაციული სალდო" : "Net Migration",
       value: isRegion ? null : migration,
-      img: `${IMG_BASE}migracia.png`,
+      img: migraciaImg,
       valueColor:
         !isRegion && migration != null
           ? migration >= 0

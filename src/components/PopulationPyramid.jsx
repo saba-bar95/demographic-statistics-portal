@@ -588,34 +588,49 @@ export default function PopulationPyramid({
       )}
 
       {/* Footnotes */}
-      <div
-        className="mt-2 text-[10px] leading-relaxed italic opacity-70 sm:text-xs"
-        style={{ fontFamily: "BPGMrgvlovani" }}
-      >
-        {year > 1993 && (
-          <p>
-            {language === "ka"
-              ? "* მონაცემები არ მოიცავს საქართველოს ოკუპირებულ ტერიტორიებს"
-              : "* Data do not cover occupied territories"}
-          </p>
-        )}
-
-        <p>
-          {language === "ka"
-            ? "* მოსახლეობის აღწერების მონაცემებით"
-            : "* According to the census data"}
-        </p>
-        <p>
-          {language === "ka"
-            ? "* მოსახლეობის რიცხოვნობა 1 იანვრის მდგომარეობით"
-            : "* Number of population as of 1 January"}
-        </p>
-        <p>
-          {language === "ka"
-            ? "* აღწერის გადაანგარიშებული შედეგები"
-            : "* Estimated results of the census"}
-        </p>
-      </div>
+      {(() => {
+        const censusYears = [1926, 1939, 1959, 1970, 1979, 1989];
+        const showFoot1 = year >= 1994;
+        const showFoot2 = censusYears.includes(year) || year === 2014;
+        const showFoot3 = year >= 1971 && !censusYears.includes(year) && year !== 2002 && year !== 2014;
+        const showFoot4 = year === 2002;
+        if (!showFoot1 && !showFoot2 && !showFoot3 && !showFoot4) return null;
+        return (
+          <div
+            className="mt-2 text-[10px] leading-relaxed italic opacity-70 sm:text-xs"
+            style={{ fontFamily: "BPGMrgvlovani" }}
+          >
+            {showFoot1 && (
+              <p>
+                {language === "ka"
+                  ? "* მონაცემები არ მოიცავს საქართველოს ოკუპირებულ ტერიტორიებს"
+                  : "* Data do not cover occupied territories"}
+              </p>
+            )}
+            {showFoot2 && (
+              <p>
+                {language === "ka"
+                  ? "* მოსახლეობის აღწერების მონაცემებით"
+                  : "* According to the census data"}
+              </p>
+            )}
+            {showFoot3 && (
+              <p>
+                {language === "ka"
+                  ? "* მოსახლეობის რიცხოვნობა 1 იანვრის მდგომარეობით"
+                  : "* Number of population as of 1 January"}
+              </p>
+            )}
+            {showFoot4 && (
+              <p>
+                {language === "ka"
+                  ? "* აღწერის გადაანგარიშებული შედეგები"
+                  : "* Estimated results of the census"}
+              </p>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
