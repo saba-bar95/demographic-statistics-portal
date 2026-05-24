@@ -36,14 +36,18 @@ function App() {
     name: null,
   });
   const [selectedYear, setSelectedYear] = useState(null);
-  const { years: allYears } = useAvailableYears();
+  const { years: allYears, isLoading: yearsLoading } = useAvailableYears();
 
   // Use region-specific years when a region is selected
   const years = selectedRegion.id ? REGION_YEARS : allYears;
   const effectiveYear = selectedYear ?? years?.[years.length - 1] ?? null;
 
-  const { chartData, isLoading, error } = useChartData(effectiveYear, selectedRegion.id);
+  const { chartData, isLoading: chartLoading, error } = useChartData(
+    effectiveYear,
+    selectedRegion.id,
+  );
   const { summaryData } = useSummaryData(effectiveYear, selectedRegion.id);
+  const isChartPending = yearsLoading || (effectiveYear != null && chartLoading);
 
   // Derive translated region name based on current language
   const regionDisplayName = selectedRegion.name
@@ -118,43 +122,40 @@ function App() {
           {/* Population Pyramid — full width on sm/md, cols 1-3 all rows on 2xl */}
           <div className="h-full md:col-span-2 md:min-h-100 2xl:col-span-3 2xl:row-span-3 2xl:min-h-197.5 2xl:overflow-hidden">
             {error && <p className="text-sm text-red-500 sm:text-base">{error.message}</p>}
-            {chartData && (
-              <div className="relative h-full md:min-h-200 2xl:min-h-0">
-                {isLoading && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-(--bg)/70">
-                    <span className="text-sm">Loading...</span>
-                  </div>
-                )}
-                <PopulationPyramid
-                  key={`${language}-${theme}`}
-                  data={chartData}
-                  language={language}
-                  years={years}
-                  year={effectiveYear}
-                  onYearChange={handleYearChange}
-                  theme={theme}
-                  isLocked={isLocked}
-                  lockedData={lockedData}
-                  lockedYear={lockedYear}
-                  onToggleLock={handleToggleLock}
-                  regionName={regionDisplayName}
-                  barColorMap={showAgeSlider ? barColorMap : null}
-                  sliderOverlay={
-                    showAgeSlider && ageGroups.length > 0 ? (
-                      <div className="w-12 shrink-0 pb-10">
-                        <AgeRangeSlider
-                          ageGroups={ageGroups}
-                          value={ageRangeValue}
-                          onChange={setAgeRange}
-                          theme={theme}
-                        />
-                      </div>
-                    ) : null
-                  }
-                />
-              </div>
-            )}
-            {!chartData && isLoading && <p className="text-sm sm:text-base">Loading data...</p>}
+            <div className="relative h-full md:min-h-200 2xl:min-h-0">
+              {isChartPending && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-(--bg)/70">
+                  <span className="text-sm">Loading...</span>
+                </div>
+              )}
+              <PopulationPyramid
+                key={`${language}-${theme}`}
+                data={chartData}
+                language={language}
+                years={years}
+                year={effectiveYear}
+                onYearChange={handleYearChange}
+                theme={theme}
+                isLocked={isLocked}
+                lockedData={lockedData}
+                lockedYear={lockedYear}
+                onToggleLock={handleToggleLock}
+                regionName={regionDisplayName}
+                barColorMap={showAgeSlider ? barColorMap : null}
+                sliderOverlay={
+                  showAgeSlider && ageGroups.length > 0 ? (
+                    <div className="w-12 shrink-0 pb-10">
+                      <AgeRangeSlider
+                        ageGroups={ageGroups}
+                        value={ageRangeValue}
+                        onChange={setAgeRange}
+                        theme={theme}
+                      />
+                    </div>
+                  ) : null
+                }
+              />
+            </div>
           </div>
 
           {/* Georgia Region Map — cols 4-5, row 1 */}
