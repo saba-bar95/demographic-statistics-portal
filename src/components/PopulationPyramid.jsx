@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5exporting from "@amcharts/amcharts5/plugins/exporting";
@@ -39,6 +39,64 @@ export default function PopulationPyramid({
   });
   const barColorMapRef = useRef(null);
 
+  const applyDataToChart = useCallback((sourceData, locked, lockedDataSnapshot) => {
+    if (!sourceData || sourceData.length === 0) return;
+    if (!seriesRef.current.male || !seriesRef.current.female) return;
+
+    const totalMale = sourceData.reduce((sum, item) => sum + item.male, 0);
+    const totalFemale = sourceData.reduce((sum, item) => sum + item.female, 0);
+
+    let lockedTotalMale = 0;
+    let lockedTotalFemale = 0;
+    if (locked && lockedDataSnapshot) {
+      lockedTotalMale = lockedDataSnapshot.reduce((sum, item) => sum + item.male, 0);
+      lockedTotalFemale = lockedDataSnapshot.reduce((sum, item) => sum + item.female, 0);
+    }
+
+    const chartData = sourceData.map((item, index) => {
+      const lockedItem = locked && lockedDataSnapshot ? lockedDataSnapshot[index] : null;
+      return {
+        age: item.age,
+        male: totalMale > 0 ? -((item.male / totalMale) * 100) : 0,
+        female: totalFemale > 0 ? (item.female / totalFemale) * 100 : 0,
+        maleCount: item.male,
+        femaleCount: item.female,
+        malePercent: totalMale > 0 ? (item.male / totalMale) * 100 : 0,
+        femalePercent: totalFemale > 0 ? (item.female / totalFemale) * 100 : 0,
+        lockedMale:
+          lockedItem && lockedTotalMale > 0 ? -((lockedItem.male / lockedTotalMale) * 100) : null,
+        lockedFemale:
+          lockedItem && lockedTotalFemale > 0
+            ? (lockedItem.female / lockedTotalFemale) * 100
+            : null,
+      };
+    });
+
+    seriesRef.current.yAxis.data.setAll(chartData);
+    seriesRef.current.male.data.setAll(chartData);
+    seriesRef.current.female.data.setAll(chartData);
+    seriesRef.current.lockedMale.data.setAll(locked ? chartData : []);
+    seriesRef.current.lockedFemale.data.setAll(locked ? chartData : []);
+
+    rootRef.current?.resize();
+
+    requestAnimationFrame(() => {
+      const map = barColorMapRef.current;
+      const defM = am5.color(0x3daadf);
+      const defF = am5.color(0xf03f46);
+      seriesRef.current.male?.columns.each((col) => {
+        const age = col.dataItem?.dataContext?.age;
+        const c = map && age && map[age];
+        col.set("fill", c ? am5.color(c) : defM);
+      });
+      seriesRef.current.female?.columns.each((col) => {
+        const age = col.dataItem?.dataContext?.age;
+        const c = map && age && map[age];
+        col.set("fill", c ? am5.color(c) : defF);
+      });
+    });
+  }, []);
+
   // Get theme colors
   const getThemeColors = (isDark) => ({
     text: isDark ? am5.color(0xe6eef8) : am5.color(0x0f172a),
@@ -46,8 +104,8 @@ export default function PopulationPyramid({
     bg: isDark ? am5.color(0x0b1220) : am5.color(0xffffff),
   });
 
-  // Initialize chart once
-  useEffect(() => {
+  // Initialize chart once (layout effect so the container ref is ready before paint)
+  useLayoutEffect(() => {
     if (!chartRef.current) return;
 
     const root = am5.Root.new(chartRef.current);
@@ -286,70 +344,24 @@ export default function PopulationPyramid({
 
     return () => {
       root.dispose();
+      rootRef.current = null;
+      seriesRef.current = {
+        male: null,
+        female: null,
+        lockedMale: null,
+        lockedFemale: null,
+        yAxis: null,
+        xAxis: null,
+        legend: null,
+        chart: null,
+      };
     };
   }, [language, theme]);
 
   // Update data without recreating chart
   useEffect(() => {
-    if (!data || data.length === 0) return;
-    if (!seriesRef.current.male || !seriesRef.current.female) return;
-
-    // Calculate totals by gender for current data
-    const totalMale = data.reduce((sum, item) => sum + item.male, 0);
-    const totalFemale = data.reduce((sum, item) => sum + item.female, 0);
-
-    // Calculate locked data percentages if locked
-    let lockedTotalMale = 0;
-    let lockedTotalFemale = 0;
-    if (isLocked && lockedData) {
-      lockedTotalMale = lockedData.reduce((sum, item) => sum + item.male, 0);
-      lockedTotalFemale = lockedData.reduce((sum, item) => sum + item.female, 0);
-    }
-
-    // Convert to gender-specific percentages (guard against division by zero)
-    const chartData = data.map((item, index) => {
-      const lockedItem = isLocked && lockedData ? lockedData[index] : null;
-      return {
-        age: item.age,
-        male: totalMale > 0 ? -((item.male / totalMale) * 100) : 0,
-        female: totalFemale > 0 ? (item.female / totalFemale) * 100 : 0,
-        maleCount: item.male,
-        femaleCount: item.female,
-        malePercent: totalMale > 0 ? (item.male / totalMale) * 100 : 0,
-        femalePercent: totalFemale > 0 ? (item.female / totalFemale) * 100 : 0,
-        // Locked overlay data (null if not locked)
-        lockedMale:
-          lockedItem && lockedTotalMale > 0 ? -((lockedItem.male / lockedTotalMale) * 100) : null,
-        lockedFemale:
-          lockedItem && lockedTotalFemale > 0
-            ? (lockedItem.female / lockedTotalFemale) * 100
-            : null,
-      };
-    });
-
-    seriesRef.current.yAxis.data.setAll(chartData);
-    seriesRef.current.male.data.setAll(chartData);
-    seriesRef.current.female.data.setAll(chartData);
-    seriesRef.current.lockedMale.data.setAll(isLocked ? chartData : []);
-    seriesRef.current.lockedFemale.data.setAll(isLocked ? chartData : []);
-
-    // Re-apply bar colors after new columns are created
-    requestAnimationFrame(() => {
-      const map = barColorMapRef.current;
-      const defM = am5.color(0x3daadf);
-      const defF = am5.color(0xf03f46);
-      seriesRef.current.male?.columns.each((col) => {
-        const age = col.dataItem?.dataContext?.age;
-        const c = map && age && map[age];
-        col.set("fill", c ? am5.color(c) : defM);
-      });
-      seriesRef.current.female?.columns.each((col) => {
-        const age = col.dataItem?.dataContext?.age;
-        const c = map && age && map[age];
-        col.set("fill", c ? am5.color(c) : defF);
-      });
-    });
-  }, [data, isLocked, lockedData]);
+    applyDataToChart(data, isLocked, lockedData);
+  }, [data, isLocked, lockedData, applyDataToChart]);
 
   // Keep ref in sync and explicitly repaint every column
   useEffect(() => {
@@ -592,7 +604,8 @@ export default function PopulationPyramid({
         const censusYears = [1926, 1939, 1959, 1970, 1979, 1989];
         const showFoot1 = year >= 1994;
         const showFoot2 = censusYears.includes(year) || year === 2014;
-        const showFoot3 = year >= 1971 && !censusYears.includes(year) && year !== 2002 && year !== 2014;
+        const showFoot3 =
+          year >= 1971 && !censusYears.includes(year) && year !== 2002 && year !== 2014;
         const showFoot4 = year === 2002;
         if (!showFoot1 && !showFoot2 && !showFoot3 && !showFoot4) return null;
         return (
